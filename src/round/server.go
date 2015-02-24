@@ -4,9 +4,11 @@
 
 package round
 
+// A Server represents a server.
 type Server struct {
 }
 
+// NewServer returns a new Server.
 func NewServer() *Server {
 	server := &Server{}
 	return server

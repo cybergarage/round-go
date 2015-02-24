@@ -4,9 +4,11 @@
 
 package round
 
+// A Client represents a clinet.
 type Client struct {
 }
 
+// NewClient returns a new Client.
 func NewClient() *Client {
 	client := &Client{}
 	return client

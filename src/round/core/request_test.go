@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package round
+package core
 
 import (
 	"errors"
@@ -10,12 +10,12 @@ import (
 )
 
 const (
-	nullServerError = "Server is null"
+	nullRequestError = "Request is null"
 )
 
-func TestNewClient(t *testing.T) {
-	server := NewServer()
-	if server == nil {
-		t.Error(errors.New(nullServerError))
+func TestNewRequest(t *testing.T) {
+	req := NewRequest()
+	if req == nil {
+		t.Error(errors.New(nullRequestError))
 	}
 }

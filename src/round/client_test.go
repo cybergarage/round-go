@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	nullClientError         = "Clinet is null"
+	nullClientError = "Clinet is null"
 )
 
 func TestNewClient(t *testing.T) {
