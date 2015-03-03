@@ -4,6 +4,9 @@
 
 package round
 
+import (
+  "net/http"
+)
 // A Server represents a server.
 type Server struct {
 }
@@ -12,4 +15,8 @@ type Server struct {
 func NewServer() *Server {
 	server := &Server{}
 	return server
+}
+
+// ServeHTTP 
+func (server Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
