@@ -5,5 +5,5 @@
 package round
 
 const ( 
-HTTP_RPC_URI = /rpc
+http_rpc_uri = "/rpc"
 )
