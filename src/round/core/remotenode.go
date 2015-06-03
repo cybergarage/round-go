@@ -6,10 +6,13 @@ package core
 
 // A RemoteNode represents a local node.
 type RemoteNode struct {
+	*NodeBase
+	Address string
+	Port int
 }
 
 // NewRemoteNode returns a new RemoteNode.
-func NewRemoteNode() *RemoteNode {
-	node := &RemoteNode{}
+func NewRemoteNode(addr string, port int) *RemoteNode {
+	node := &RemoteNode{NodeBase:&NodeBase{}, Address:addr, Port:port}
 	return node
 }

@@ -4,6 +4,22 @@
 
 package core
 
+import "encoding/json"
+
+// A base node  represents a JSON-RPC Request.
 type Node interface {
-	GetAddress() string
+	PostMessage(reqMsg string) (resMsg string, err error);
+}
+
+// A NodeBase represents a base node.
+type NodeBase struct {
+}
+
+func (self *NodeBase) PostJsonMessage(jsonReq interface{}, jsonRes interface{}) error {
+	_, err := json.Marshal(jsonReq)
+	if err != nil {
+		return err
+		}
+	//resMsg, err := PostMessage("")
+	return  nil
 }
