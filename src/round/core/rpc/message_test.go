@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package core
+package rpc
 
 import (
 	"errors"
@@ -10,12 +10,12 @@ import (
 )
 
 const (
-	nullRemoteNodeError = "RemoteNode is null"
+	nullMessageError = "Message is null"
 )
 
-func TestNewRemoteNode(t *testing.T) {
-	req := NewRemoteNode("", 0)
-	if req == nil {
-		t.Error(errors.New(nullRemoteNodeError))
+func TestNewMessage(t *testing.T) {
+	msg := NewMessage()
+	if msg == nil {
+		t.Error(errors.New(nullMessageError))
 	}
 }

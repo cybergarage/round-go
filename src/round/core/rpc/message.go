@@ -2,14 +2,14 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package core
+package rpc
 
-// A Request represents a JSON-RPC Request.
-type Request struct {
+// A Message represents a JSON-RPC Message.
+type Message struct {
 }
 
 // NewRequest returns a new Request.
-func NewRequest() *Request {
-	req := &Request{}
-	return req
+func NewMessage() *Message {
+	msg := &Message{}
+	return msg
 }

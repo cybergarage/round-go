@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package core
+package rpc
 
 import (
 	"errors"
@@ -10,12 +10,12 @@ import (
 )
 
 const (
-	nullResponseError = "Response is null"
+	nullRequestError = "Request is null"
 )
 
-func TestNewResponse(t *testing.T) {
-	res := NewResponse()
-	if res == nil {
-		t.Error(errors.New(nullResponseError))
+func TestNewRequest(t *testing.T) {
+	req := NewRequest()
+	if req == nil {
+		t.Error(errors.New(nullRequestError))
 	}
 }

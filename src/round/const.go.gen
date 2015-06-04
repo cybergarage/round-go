@@ -8,10 +8,12 @@ package round
 
 const ( 
 HEADER
-my @consts = `curl -s https://raw.githubusercontent.com/cybergarage/round-common/master/src/constants.csv | awk '/./' | awk '\$0 !~ /^#/{print \$0}'`;
-foreach $const (@consts) {
-  $go_const = join(" = ", split(/,/, $const));
-  print $go_const;
+@const_lines = `curl -s https://raw.githubusercontent.com/cybergarage/round-common/master/src/constants.csv | awk '/./' | awk '\$0 !~ /^#/{print \$0}'`;
+foreach $const_line (@const_lines) {
+  @const = split(/,/, $const_line);
+  $const[0] =~ s/_([a-z])/\u$1/g;
+  $const[0] =~ s/^([a-z])/\u$1/;
+  print $const[0] . " = " . $const[1];
 }
 print<<FOTTER;
 )
