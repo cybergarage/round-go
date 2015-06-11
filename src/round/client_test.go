@@ -14,7 +14,7 @@ const (
 )
 
 func TestNewClient(t *testing.T) {
-	clinet := NewClinet()
+	clinet := NewClient()
 	if clinet == nil {
 		t.Error(errors.New(nullClientError))
 	}

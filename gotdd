@@ -1,0 +1,23 @@
+#/bin/sh
+
+export GOPATH=`pwd`
+
+srcdir="src"
+pkgname=`ls -1 ${srcdir}`
+exreg=".*\.sw[pox]"
+
+# For MacOSX
+
+if [ -e `which fswatch` ]; then
+  fswatch -o -e '${exreg}' ${srcdir} | xargs -n1 -I{} go test -v ${pkgname}
+  exit 0
+fi
+
+# For Linux
+
+if [ -e `which inotifywait` ]; then
+  while inotifywait -qr -e modify --exclude '${exreg}' ${srcdir}; do
+    go test -v ${pkgname}
+  done
+fi
+
