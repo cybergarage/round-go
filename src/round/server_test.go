@@ -13,7 +13,7 @@ const (
 	nullServerError = "Server is null"
 )
 
-func TestNewClient(t *testing.T) {
+func TestNewServer(t *testing.T) {
 	server := NewServer()
 	if server == nil {
 		t.Error(errors.New(nullServerError))
