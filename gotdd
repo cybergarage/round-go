@@ -2,22 +2,26 @@
 
 export GOPATH=`pwd`
 
+fswatch=`which fswatch`
+inotifywait=`which inotifywait`
+
 srcdir="src"
 pkgname=`ls -1 ${srcdir}`
 exreg=".*\.sw[pox]"
 
-# For MacOSX
+# For fswatch 
 
-if [ -e `which fswatch` ]; then
-  fswatch -o -e '${exreg}' ${srcdir} | xargs -n1 -I{} go test -v ${pkgname}
+if [ ${#fswatch} -gt 0 ]; then
+  ${fswatch} -o -e '${exreg}' ${srcdir} | xargs -n1 -I{} go test -v ${pkgname}
   exit 0
 fi
 
-# For Linux
+# For inotifywait
 
-if [ -e `which inotifywait` ]; then
-  while inotifywait -qr -e modify --exclude '${exreg}' ${srcdir}; do
+if [ ${#inotifywait} -gt 0 ]; then
+  while ${inotifywait} -qr -e modify --exclude '${exreg}' ${srcdir}; do
     go test -v ${pkgname}
   done
 fi
 
+exit 1
