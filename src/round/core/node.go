@@ -26,19 +26,19 @@ func (self *NodeBase) PostJsonMessage(jsonReq interface{}) (jsonRes interface{},
 	if err != nil {
 		return nil, err
 	}
-	
+
 	_, err = self.PostMessage(string(reqMsg))
 	if err != nil {
 		return nil, err
 	}
 
 	/*
-    jsonRes interface{}	= nil
-	err := json.Unmarshal([]byte(resMsg), jsonRes)
-	if err != nil {
-		return err
-	}
+		    jsonRes interface{}	= nil
+			err := json.Unmarshal([]byte(resMsg), jsonRes)
+			if err != nil {
+				return err
+			}
 	*/
-	
+
 	return nil, nil
 }

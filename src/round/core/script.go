@@ -6,9 +6,9 @@ package core
 
 // A Script represents a script.
 type Script struct {
-	Language string
-	Name string
-	Code []byte
+	Language     string
+	Name         string
+	Code         []byte
 	CodeEncoding string
 }
 
