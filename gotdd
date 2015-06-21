@@ -6,7 +6,8 @@ fswatch=`which fswatch`
 inotifywait=`which inotifywait`
 
 srcdir="src"
-pkgname="round round/core"
+#pkgname="round round/core round/config round/log round/script"
+pkgname="round/script"
 
 # For fswatch 
 
