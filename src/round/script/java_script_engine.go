@@ -5,7 +5,7 @@
 package script
 
 // #cgo CFLAGS: -I/usr/local/include
-// #cgo LDFLAGS: -L/usr/local/lib -lround
+// #cgo LDFLAGS: -L/usr/local/lib -lround -lmozjs185
 // #include <roundc/round.h>
 import "C"
 
@@ -35,11 +35,11 @@ func (self *JavaScriptEngine) Compile(script *core.Script) error {
 func (self *JavaScriptEngine) Run(script *core.Script, params string) (string, error) {
 	var result, errmsg string
 
-	jsCode := string(script.Code)
+	code := string(script.Code)
 	
 	C.round_js_engine_lock(self.Engine)
 	
-	ok := bool(C.round_js_engine_run(self.Engine, C.CString(jsCode)))
+	ok := bool(C.round_js_engine_run(self.Engine, C.CString(code)))
 	if ok {
 		result = C.GoString(C.round_js_engine_getresult(self.Engine))
 	} else {
@@ -48,7 +48,7 @@ func (self *JavaScriptEngine) Run(script *core.Script, params string) (string, e
 	
 	C.round_js_engine_unlock(self.Engine)
 
-	fmt.Printf("%t %s %s %s\n", ok, jsCode, result, errmsg)
+	fmt.Printf("%t %s %s %s\n", ok, code, result, errmsg)
 	
 	if !ok {
 		return "", errors.New(errmsg)
