@@ -4,7 +4,7 @@
 
 package script
 
-// #cgo CFLAGS: -I/usr/local/include
+// #cgo CFLAGS: -I/usr/local/include -DROUND_SUPPORT_JS_SM
 // #cgo LDFLAGS: -L/usr/local/lib -lround -lmozjs185
 // #include <roundc/round.h>
 import "C"

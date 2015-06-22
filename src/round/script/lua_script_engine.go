@@ -4,7 +4,7 @@
 
 package script
 
-// #cgo CFLAGS: -I/usr/local/include
+// #cgo CFLAGS: -I/usr/local/include -DROUND_SUPPORT_LUA
 // #cgo LDFLAGS: -L/usr/local/lib -lround -llua
 // #include <roundc/round.h>
 import "C"
