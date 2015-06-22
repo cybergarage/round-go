@@ -10,7 +10,7 @@ package script
 import "C"
 
 import (
-	"fmt"
+	//"fmt"
 	"errors"
 	"round/core"
 )
@@ -49,7 +49,7 @@ func (self *LuaEngine) Run(script *core.Script, params string) (string, error) {
 	
 	C.round_lua_engine_unlock(self.Engine)
 
-	fmt.Printf("%t %s %s %s\n", ok, code, result, errmsg)
+	//fmt.Printf("%t %s %s %s\n", ok, code, result, errmsg)
 	
 	if !ok {
 		return "", errors.New(errmsg)
