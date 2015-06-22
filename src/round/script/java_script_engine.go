@@ -10,7 +10,7 @@ package script
 import "C"
 
 import (
-	"fmt"
+	//"fmt"
 	"errors"
 	"round/core"
 )
@@ -48,7 +48,7 @@ func (self *JavaScriptEngine) Run(script *core.Script, params string) (string, e
 	
 	C.round_js_engine_unlock(self.Engine)
 
-	fmt.Printf("%t %s %s %s\n", ok, code, result, errmsg)
+	//fmt.Printf("%t %s %s %s\n", ok, code, result, errmsg)
 	
 	if !ok {
 		return "", errors.New(errmsg)
