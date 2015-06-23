@@ -5,14 +5,14 @@
 package script
 
 import (
+	"errors"
+	"fmt"
 	"round/core"
 	"testing"
-	"fmt"
-	"errors"
 )
 
 const (
-	luaResultError  = "Result (%s) is not equals (%s)"
+	luaResultError = "Result (%s) is not equals (%s)"
 )
 
 func TestNewLuaEngine(t *testing.T) {
@@ -22,12 +22,12 @@ func TestNewLuaEngine(t *testing.T) {
 	script.Name = "echo"
 	script.Code = []byte("function echo(params)\n\treturn params\nend")
 	param := "hello"
-	
+
 	result, err := jsEngine.Run(script, param)
 	if err != nil {
 		t.Error(err)
 	}
-	
+
 	if result != param {
 		t.Error(errors.New(fmt.Sprintf(luaResultError, result, param)))
 	}

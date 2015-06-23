@@ -12,7 +12,7 @@ import (
 
 var currentScriptLocalNode *core.LocalNode = nil
 
-func SetLocalNode(node *core.LocalNode)  {
+func SetLocalNode(node *core.LocalNode) {
 	currentScriptLocalNode = node
 }
 
@@ -20,18 +20,18 @@ func GetLocalNode() *core.LocalNode {
 	return currentScriptLocalNode
 }
 
-//export GetLocalNodeRegistry
-func GetLocalNodeRegistry(key *C.char) *C.char {
+//export LocalNodeGetRegistry
+func LocalNodeGetRegistry(key *C.char) *C.char {
 	node := GetLocalNode()
 	if node == nil {
 		return C.CString("")
 	}
-	
+
 	return C.CString("hi")
 }
 
-//export SetLocalNodeRegistry
-func SetLocalNodeRegistry(key, value *C.char) C.int {
-	//node := GetLocalNode()	
+//export LocalNodeSetRegistry
+func LocalNodeSetRegistry(key, value *C.char) C.int {
+	//node := GetLocalNode()
 	return C.int(1)
 }

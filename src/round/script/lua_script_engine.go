@@ -37,20 +37,20 @@ func (self *LuaEngine) Run(script *core.Script, params string) (string, error) {
 
 	name := script.Name
 	code := string(script.Code)
-	
+
 	C.round_lua_engine_lock(self.Engine)
-	
+
 	ok := bool(C.round_lua_engine_run(self.Engine, C.CString(code), C.CString(name), C.CString(params)))
 	if ok {
 		result = C.GoString(C.round_lua_engine_getresult(self.Engine))
 	} else {
 		errmsg = C.GoString(C.round_lua_engine_geterror(self.Engine))
 	}
-	
+
 	C.round_lua_engine_unlock(self.Engine)
 
 	//fmt.Printf("%t %s %s %s\n", ok, code, result, errmsg)
-	
+
 	if !ok {
 		return "", errors.New(errmsg)
 	}
