@@ -4,14 +4,17 @@
 
 package script
 
-// #cgo CFLAGS: -I/usr/local/include -DROUND_SUPPORT_LUA
+// #cgo CFLAGS: -I/usr/local/include -DROUND_SUPPORT_LUA -I../../../_obj
 // #cgo LDFLAGS: -L/usr/local/lib -lround -llua
 // #include <roundc/round.h>
+// int round_lua_setregistry(lua_State* L);
+// int round_lua_getregistry(lua_State* L);
 import "C"
 
 import (
 	//"fmt"
 	"errors"
+	"round"
 	"round/core"
 )
 
@@ -22,7 +25,11 @@ type LuaEngine struct {
 // NewLocalNode returns a new LocalNode.
 func NewLuaEngine() *LuaEngine {
 	jsEngine := &LuaEngine{}
+
 	jsEngine.Engine = C.round_lua_engine_new()
+	C.round_lua_engine_register(jsEngine.Engine, C.CString(round.SystemMethodSetRegistry), C.lua_CFunction(C.round_lua_setregistry))
+	C.round_lua_engine_register(jsEngine.Engine, C.CString(round.SystemMethodGetRegistry), C.lua_CFunction(C.round_lua_getregistry))
+
 	return jsEngine
 }
 
