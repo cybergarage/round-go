@@ -7,10 +7,22 @@ package core
 // A LocalNode represents a local node.
 type LocalNode struct {
 	*NodeBase
+	registryMgr *RegistryManager
 }
 
 // NewLocalNode returns a new LocalNode.
 func NewLocalNode() *LocalNode {
 	node := &LocalNode{NodeBase: &NodeBase{}}
+	node.registryMgr = NewRegistryManager()
 	return node
+}
+
+// SetRegistry sets a registry.
+func (self *LocalNode) SetRegistry(reg Registry) error {
+	return self.registryMgr.Set(reg)
+}
+
+// GetRegistry gets a registry by the specified key.
+func (self *LocalNode) GetRegistry(key string) (*Registry, error) {
+	return self.registryMgr.Get(key)
 }
