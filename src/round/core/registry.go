@@ -16,7 +16,7 @@ type Registry struct {
 }
 
 // NewRegistry returns a new Registry.
-func NewRegistry() *Registry {
-	reg := &Registry{}
+func NewRegistry(key, value string) *Registry {
+	reg := &Registry{Key: key, Value: value, Timestamp: time.Now()}
 	return reg
 }

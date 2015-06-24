@@ -5,13 +5,7 @@
 package core
 
 import (
-	"errors"
-	"fmt"
 	"time"
-)
-
-const (
-	ErrorRegistryNotFound = "%s is not found"
 )
 
 // A RegistryManager represents a registry manager.
@@ -27,17 +21,17 @@ func NewRegistryManager() *RegistryManager {
 }
 
 // Set sets a registry.
-func (self *RegistryManager) Set(reg Registry) error {
+func (self *RegistryManager) Set(reg *Registry) error {
 	reg.Timestamp = time.Now()
-	self.Map[reg.Key] = reg
+	self.Map[reg.Key] = *reg
 	return nil
 }
 
 // Get gets a registry by the specified key.
-func (self *RegistryManager) Get(key string) (*Registry, error) {
+func (self *RegistryManager) Get(key string) (*Registry, bool) {
 	reg, ok := self.Map[key]
 	if !ok {
-		return nil, errors.New(fmt.Sprintf(ErrorRegistryNotFound, key))
+		return nil, ok
 	}
-	return &reg, nil
+	return &reg, ok
 }
