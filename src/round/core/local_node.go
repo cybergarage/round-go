@@ -18,11 +18,11 @@ func NewLocalNode() *LocalNode {
 }
 
 // SetRegistry sets a registry.
-func (self *LocalNode) SetRegistry(reg Registry) error {
+func (self *LocalNode) SetRegistry(reg *Registry) error {
 	return self.registryMgr.Set(reg)
 }
 
 // GetRegistry gets a registry by the specified key.
-func (self *LocalNode) GetRegistry(key string) (*Registry, error) {
+func (self *LocalNode) GetRegistry(key string) (*Registry, bool) {
 	return self.registryMgr.Get(key)
 }
