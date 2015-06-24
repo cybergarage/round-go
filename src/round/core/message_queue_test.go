@@ -11,9 +11,9 @@ import (
 )
 
 const (
-	errorMessageQueueBadCnt = "invalid cnt (%d) : ecpected %d"
-	errorMessageQueueBadSeq = "invalid seq (%d) : ecpected %d"
-	errorMessageQueueBadSum = "invalid sum (%d) : ecpected %d"
+	errorMessageQueueBadCnt = "invalid chan cnt (%d) : ecpected %d"
+	errorMessageQueueBadSeq = "invalid chan seq (%d) : ecpected %d"
+	errorMessageQueueBadSum = "invalid chan sum (%d) : ecpected %d"
 )
 
 type TestMessageQueueListener struct {
