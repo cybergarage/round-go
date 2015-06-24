@@ -11,34 +11,35 @@ import (
 )
 
 const (
+	errorMessageQueueBadCnt = "invalid cnt (%d) : ecpected %d"
+	errorMessageQueueBadSeq = "invalid seq (%d) : ecpected %d"
 	errorMessageQueueBadSum = "invalid sum (%d) : ecpected %d"
 )
 
-var msgQueueSum int
-
 type TestMessageQueueListener struct {
+	Values []int
+	Sum    int
 }
 
-func (self TestMessageQueueListener) MessageReceived(msg *Message) {
+func (self *TestMessageQueueListener) MessageReceived(msg *Message) {
 	value, err := strconv.Atoi(msg.Content)
 	if err == nil {
-		msgQueueSum += value
+		self.Values = append(self.Values, value)
+		self.Sum += value
 	}
 }
 
 func TestNewMessageQueue(t *testing.T) {
 	msgQueue := NewMessageQueue()
-	msgQueueListener := TestMessageQueueListener{}
+	msgQueueListener := &TestMessageQueueListener{Sum: 0, Values: make([]int, 0)}
 	msgQueue.SetListener(msgQueueListener)
-
-	msgQueueSum = 0
 
 	err := msgQueue.Start()
 	if err != nil {
 		t.Error(err)
 	}
 
-	msgValues := []int{1, 2, 3}
+	msgValues := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	for _, msgValue := range msgValues {
 		err := msgQueue.PostMessage(NewMessage(strconv.Itoa(msgValue)))
 		if err != nil {
@@ -53,12 +54,26 @@ func TestNewMessageQueue(t *testing.T) {
 		t.Error(err)
 	}
 
+	// Check FIFO
+
+	if len(msgValues) == len(msgQueueListener.Values) {
+		for n, msgValue := range msgValues {
+			if msgValue != msgQueueListener.Values[n] {
+				t.Errorf(errorMessageQueueBadSeq, msgQueueListener.Values[n], msgValue)
+			}
+		}
+	} else {
+		t.Errorf(errorMessageQueueBadCnt, len(msgQueueListener.Values), len(msgValues))
+	}
+
+	// Check Sum
+
 	expectedResult := 0
 	for _, msgValue := range msgValues {
 		expectedResult += msgValue
 	}
 
-	if msgQueueSum != expectedResult {
-		t.Errorf(errorMessageQueueBadSum, msgQueueSum, expectedResult)
+	if msgQueueListener.Sum != expectedResult {
+		t.Errorf(errorMessageQueueBadSum, msgQueueListener.Sum, expectedResult)
 	}
 }
