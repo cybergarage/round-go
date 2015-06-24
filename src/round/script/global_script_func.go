@@ -26,12 +26,22 @@ func LocalNodeGetRegistry(key *C.char) *C.char {
 	if node == nil {
 		return C.CString("")
 	}
-
-	return C.CString("hi")
+	reg, ok := node.GetRegistry(C.GoString(key))
+	if !ok {
+		return C.CString("")
+	}
+	return C.CString(reg.Value)
 }
 
 //export LocalNodeSetRegistry
 func LocalNodeSetRegistry(key, value *C.char) C.int {
-	//node := GetLocalNode()
+	node := GetLocalNode()
+	if node == nil {
+		return C.int(0)
+	}
+	err := node.SetRegistry(C.GoString(key), C.GoString(value))
+	if err != nil {
+		return C.int(0)
+	}
 	return C.int(1)
 }
