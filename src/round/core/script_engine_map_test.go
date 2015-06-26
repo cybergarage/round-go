@@ -32,6 +32,9 @@ func TestNewScriptEngineMap(t *testing.T) {
 		engine := NewScriptEngine()
 		engineMap.Set(name, engine)
 		engines = append(engines, engine)
+		if len(engineMap) != (n + 1) {
+			t.Errorf(errorScriptEngineMapBadLength, len(engineMap), (n + 1))
+		}
 	}
 
 	if len(engineMap) != testLoopCnt {
@@ -54,6 +57,9 @@ func TestNewScriptEngineMap(t *testing.T) {
 	for n := 0; n < testLoopCnt; n++ {
 		name := fmt.Sprintf(nameFmt, n)
 		engineMap.Remove(name)
+		if len(engineMap) != (testLoopCnt - (n + 1)) {
+			t.Errorf(errorScriptEngineMapBadLength, len(engineMap), (testLoopCnt - (n + 1)))
+		}
 	}
 
 	if len(engineMap) != 0 {

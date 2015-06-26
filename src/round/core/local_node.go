@@ -9,6 +9,7 @@ type LocalNode struct {
 	*NodeBase
 	regMgr    *RegistryManager
 	msgMgr    *MessageManager
+	methodMgr *MethodManager
 	scriptMgr *ScriptManager
 }
 
@@ -17,11 +18,11 @@ func NewLocalNode() *LocalNode {
 	node := &LocalNode{NodeBase: &NodeBase{}}
 
 	node.regMgr = NewRegistryManager()
+	node.methodMgr = NewMethodManager()
+	node.scriptMgr = NewScriptManager()
 
 	node.msgMgr = NewMessageManager()
 	node.msgMgr.SetListener(node)
-
-	node.scriptMgr = NewScriptManager()
 
 	return node
 }
