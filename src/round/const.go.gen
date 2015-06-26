@@ -8,7 +8,7 @@ package round
 
 const ( 
 HEADER
-@const_lines = `curl -s https://raw.githubusercontent.com/cybergarage/round-common/master/src/round/constants.csv | awk '/./' | awk '\$0 !~ /^#/{print \$0}'`;
+@const_lines = `curl -s https://raw.githubusercontent.com/cybergarage/round-common/master/const/constants.csv | awk '/./' | awk '\$0 !~ /^#/{print \$0}'`;
 foreach $const_line (@const_lines) {
   @const = split(/,/, $const_line);
   $const[0] =~ s/_([a-z])/\u$1/g;
