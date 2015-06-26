@@ -1,0 +1,39 @@
+#!/usr/bin/perl
+print<<HEADER;
+// Copyright 2015 Satoshi Konno. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+package rpc
+
+const ( 
+HEADER
+
+@const_lines = `curl -s https://raw.githubusercontent.com/cybergarage/round-common/master/const/rpc_errors.csv | awk '/./' | awk '\$0 !~ /^#/{print \$0}'`;
+
+foreach $const_line (@const_lines) {
+  @const = split(/,/, $const_line);
+  $const[0] =~ s/_([a-z])/\u$1/g;
+  $const[0] =~ s/^([a-z])/\u$1/;
+  print $const[0] . " = " . $const[1] . "\n";
+}
+
+print<<FOTTER;
+)
+
+var errorMessage map[int]string = map[int]string{
+FOTTER
+
+foreach $const_line (@const_lines) {
+  @const = split(/,/, $const_line);
+  $const[0] =~ s/_([a-z])/\u$1/g;
+  $const[0] =~ s/^([a-z])/\u$1/;
+  chomp($const[2]);
+  if (2 < length($const[2])) {
+    print $const[0] . ":" . $const[2] . ",\n";
+  }
+}
+
+print<<FOTTER;
+}
+FOTTER
