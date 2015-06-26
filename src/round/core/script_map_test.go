@@ -32,6 +32,9 @@ func TestNewScriptMap(t *testing.T) {
 		script := NewScript()
 		scriptMap.Set(name, script)
 		scripts = append(scripts, script)
+		if len(scriptMap) != (n + 1) {
+			t.Errorf(errorScriptMapBadLength, len(scriptMap), (n + 1))
+		}
 	}
 
 	if len(scriptMap) != testLoopCnt {
@@ -54,6 +57,9 @@ func TestNewScriptMap(t *testing.T) {
 	for n := 0; n < testLoopCnt; n++ {
 		name := fmt.Sprintf(nameFmt, n)
 		scriptMap.Remove(name)
+		if len(scriptMap) != (testLoopCnt - (n + 1)) {
+			t.Errorf(errorScriptMapBadLength, len(scriptMap), (testLoopCnt - (n + 1)))
+		}
 	}
 
 	if len(scriptMap) != 0 {

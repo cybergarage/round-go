@@ -16,12 +16,14 @@ import (
 )
 
 type JavaScriptEngine struct {
+	*core.ScriptEngine
 	Engine *C.RoundJavaScriptEngine
 }
 
 // NewLocalNode returns a new LocalNode.
 func NewJavaScriptEngine() *JavaScriptEngine {
 	jsEngine := &JavaScriptEngine{}
+	jsEngine.ScriptEngine = core.NewScriptEngine()
 	jsEngine.Engine = C.round_js_engine_new()
 	return jsEngine
 }

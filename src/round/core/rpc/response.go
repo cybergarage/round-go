@@ -6,6 +6,9 @@ package rpc
 
 // A Response represents a JSON-RPC reqponse.
 type Response struct {
+	Version string `json:"jsonrpc"`
+	Result  string `json:"result"`
+	Id      string `json:"id"`
 }
 
 // NewResponse returns a new Response.

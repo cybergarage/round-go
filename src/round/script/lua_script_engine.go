@@ -19,18 +19,20 @@ import (
 )
 
 type LuaEngine struct {
+	*core.ScriptEngine
 	Engine *C.RoundLuaEngine
 }
 
 // NewLocalNode returns a new LocalNode.
 func NewLuaEngine() *LuaEngine {
-	jsEngine := &LuaEngine{}
+	lueEngine := &LuaEngine{}
+	lueEngine.ScriptEngine = core.NewScriptEngine()
+	lueEngine.Engine = C.round_lua_engine_new()
 
-	jsEngine.Engine = C.round_lua_engine_new()
-	C.round_lua_engine_register(jsEngine.Engine, C.CString(round.SystemMethodSetRegistry), C.lua_CFunction(C.round_lua_setregistry))
-	C.round_lua_engine_register(jsEngine.Engine, C.CString(round.SystemMethodGetRegistry), C.lua_CFunction(C.round_lua_getregistry))
+	C.round_lua_engine_register(lueEngine.Engine, C.CString(round.SystemMethodSetRegistry), C.lua_CFunction(C.round_lua_setregistry))
+	C.round_lua_engine_register(lueEngine.Engine, C.CString(round.SystemMethodGetRegistry), C.lua_CFunction(C.round_lua_getregistry))
 
-	return jsEngine
+	return lueEngine
 }
 
 // Compile compiles the specified script.
