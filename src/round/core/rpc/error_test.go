@@ -9,5 +9,5 @@ import (
 )
 
 func TestNewError(t *testing.T) {
-	NewError()
+	NewError(ErrorCodeUnknown)
 }

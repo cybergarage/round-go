@@ -11,8 +11,13 @@ type Error struct {
 }
 
 // NewError returns a new error.
-func NewError() *Error {
+func NewError(code int) *Error {
 	err := &Error{}
+	err.Code = code
+	errMsg, ok := errorMessage[code]
+	if ok {
+		err.Message = errMsg
+	}
 	return err
 }
 
