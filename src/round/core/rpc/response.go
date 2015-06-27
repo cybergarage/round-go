@@ -28,8 +28,22 @@ func NewResponseFromRequest(req *Request) *Response {
 	return res
 }
 
+// NewResponseFromRequestWithResult returns a new Response which has a same id with the specified request and result.
+func NewResponseFromRequestWithResult(req *Request, result string) *Response {
+	res := NewResponseFromRequest(req)
+	res.Result = result
+	return res
+}
+
+// NewResponseFromRequestWithJSONResult returns a new Response which has a same id with the specified request and result.
+func NewResponseFromRequestWithJSONResult(req *Request, result interface{}) *Response {
+	res := NewResponseFromRequest(req)
+	res.SetJSONResult(result)
+	return res
+}
+
 // SetJSONParams set the specified struct into the result.
-func (self *Response) SetJSONParams(v interface{}) *Error {
+func (self *Response) SetJSONResult(v interface{}) *Error {
 	bytes, err := json.Marshal(v)
 	if err != nil {
 		return NewError(ErrorCodeInvalidParams)
