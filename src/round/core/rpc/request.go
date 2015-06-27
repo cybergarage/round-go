@@ -24,11 +24,15 @@ type BatchRequest struct {
 
 // NewRequest returns a new Request.
 func NewRequest() *Request {
-	req := &Request{}
+	req := &Request{Version: Version}
 	return req
 }
 
 // GetJSONParams returns a the specified interface using params.
-func (self *Request) GetJSONParams(v interface{}) error {
-	return json.Unmarshal([]byte(self.Params), v)
+func (self *Request) GetJSONParams(v interface{}) *Error {
+	err := json.Unmarshal([]byte(self.Params), v)
+	if err != nil {
+		return NewError(ErrorCodeInvalidParams)
+	}
+	return nil
 }

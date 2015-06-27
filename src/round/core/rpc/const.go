@@ -2,12 +2,8 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package core
+package rpc
 
-import (
-	"testing"
+const (
+	Version = "2.0"
 )
-
-func TestNewRegistry(t *testing.T) {
-	NewRegistry("", "")
-}

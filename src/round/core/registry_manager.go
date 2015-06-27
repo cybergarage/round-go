@@ -22,7 +22,7 @@ func NewRegistryManager() *RegistryManager {
 
 // Set sets a registry.
 func (self *RegistryManager) Set(reg *Registry) error {
-	reg.Timestamp = time.Now()
+	reg.Ts = time.Now().Unix()
 	self.Map[reg.Key] = *reg
 	return nil
 }

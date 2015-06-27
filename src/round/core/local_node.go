@@ -27,10 +27,10 @@ func NewLocalNode() *LocalNode {
 	return node
 }
 
-// SetRegistry sets a registry by a specified key and value.
-func (self *LocalNode) SetRegistry(key, value string) error {
-	reg := NewRegistry(key, value)
-	return self.regMgr.Set(reg)
+// SetRegistry sets a registry by a specified registory.
+func (self *LocalNode) SetRegistry(reg *Registry) error {
+	newReg := NewRegistryFromRegistry(reg)
+	return self.regMgr.Set(newReg)
 }
 
 // GetRegistry gets a registry by the specified key.
