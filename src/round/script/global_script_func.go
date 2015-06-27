@@ -39,7 +39,8 @@ func LocalNodeSetRegistry(key, value *C.char) C.int {
 	if node == nil {
 		return C.int(0)
 	}
-	err := node.SetRegistry(C.GoString(key), C.GoString(value))
+	reg := core.NewRegistry(C.GoString(key), C.GoString(value))
+	err := node.SetRegistry(reg)
 	if err != nil {
 		return C.int(0)
 	}

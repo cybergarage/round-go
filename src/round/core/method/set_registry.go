@@ -22,6 +22,17 @@ func NewSetRegistry() *SetRegistry {
 }
 
 // Exec runs the specified request on the local node.
-func (self *SetRegistry) Exec(node *core.LocalNode, req *rpc.Request) (*rpc.Response, *round.Error) {
+func (self *SetRegistry) Exec(node *core.LocalNode, req *rpc.Request) (*rpc.Response, *rpc.Error) {
+	var reg core.Registry
+	reqErr := req.GetJSONParams(&reg)
+	if reqErr != nil {
+		return reqErr
+	}
+
+	nodeErr := node.SetRegistry(&reg)
+	if nodeErr != nil {
+		return nil, NewError(ErrorCodeInternalError)
+	}
+
 	return nil, nil
 }
