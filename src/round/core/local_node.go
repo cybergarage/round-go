@@ -4,6 +4,8 @@
 
 package core
 
+import ()
+
 // A LocalNode represents a local node.
 type LocalNode struct {
 	*NodeBase
@@ -25,6 +27,14 @@ func NewLocalNode() *LocalNode {
 	node.msgMgr.SetListener(node)
 
 	return node
+}
+
+func (self *LocalNode) initStaticMethods() bool {
+	return true
+}
+
+func (self *LocalNode) initDynaimicMethods() bool {
+	return true
 }
 
 // SetRegistry sets a registry by a specified registory.
