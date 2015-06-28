@@ -10,9 +10,10 @@ import (
 
 // A Response represents a JSON-RPC reqponse.
 type Response struct {
-	Version string `json:"jsonrpc"`
-	Result  string `json:"result"`
-	Id      string `json:"id"`
+	Version   string `json:"jsonrpc"`
+	Result    string `json:"result"`
+	Id        string `json:"id"`
+	Timestamp string `json:"ts"`
 }
 
 // NewResponse returns a new Response.

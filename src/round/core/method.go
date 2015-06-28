@@ -19,7 +19,7 @@ type BaseMethod struct {
 	Name string
 }
 
-// NewMethod returns a new Method.
+// NewBaseMethod returns a new BaseMethod.
 func NewBaseMethod(name string) *BaseMethod {
 	method := &BaseMethod{Name: name}
 	return method
