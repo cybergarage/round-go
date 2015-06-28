@@ -18,18 +18,9 @@ type MethodManager struct {
 // NewMethodManager returns a new MethodManager.
 func NewMethodManager() *MethodManager {
 	methodMgr := &MethodManager{}
-	methodMgr.initStaticMethods()
+	methodMgr.staticMethods = NewMethodMap()
+	methodMgr.dynamicMethods = NewMethodMap()
 	return methodMgr
-}
-
-func (self *MethodManager) initStaticMethods() bool {
-	self.staticMethods = NewMethodMap()
-	return true
-}
-
-func (self *MethodManager) initDynaimicMethods() bool {
-	self.dynamicMethods = NewMethodMap()
-	return true
 }
 
 // IsStaticMethod returns whether the specified name method is exists as static methods.
@@ -42,6 +33,18 @@ func (self *MethodManager) IsStaticMethod(name string) bool {
 func (self *MethodManager) IsDynamicMethod(name string) bool {
 	_, ok := self.dynamicMethods[name]
 	return ok
+}
+
+// SetStaticMethod adds a method as a static method.
+func (self *MethodManager) SetStaticMethod(method *Method) bool {
+	self.staticMethods[method.Name] = method
+	return true
+}
+
+// SetDynamicMethod adds a method as a dynamic method.
+func (self *MethodManager) SetDynamicMethod(method *Method) bool {
+	self.dynamicMethods[method.Name] = method
+	return true
 }
 
 // HasMethod returns whether the specified name method is exists.
