@@ -17,12 +17,14 @@ type Node interface {
 // A NodeBase represents a base node.
 type BaseNode struct {
 	mutex *sync.Mutex
+	clock *Clock
 }
 
 // NewBaseNode returns a new BaseNode.
 func NewBaseNode() *BaseNode {
 	node := &BaseNode{}
 	node.mutex = &sync.Mutex{}
+	node.clock = NewClock()
 	return node
 }
 

@@ -69,7 +69,6 @@ func (self *LocalNode) Stop() error {
 	if err != nil {
 		return err
 	}
-
 	return nil
 }
 
