@@ -6,6 +6,7 @@ package core
 
 import (
 	"fmt"
+	"round/core/rpc"
 	"testing"
 )
 
@@ -13,6 +14,19 @@ const (
 	errorMethodMapBadObject = "invalid object (%p) : expected (%p)"
 	errorMethodMapBadLength = "invalid method len (%d) : expected (%d)"
 )
+
+type TestMethod struct {
+	*BaseMethod
+}
+
+func NewTestMethod(name string) *TestMethod {
+	method := &TestMethod{NewBaseMethod(name)}
+	return method
+}
+
+func (self *TestMethod) Exec(*LocalNode, *rpc.Request) (*rpc.Response, *rpc.Error) {
+	return nil, nil
+}
 
 func TestNewMethodMap(t *testing.T) {
 	methodMap := NewMethodMap()
@@ -23,13 +37,13 @@ func TestNewMethodMap(t *testing.T) {
 
 	testLoopCnt := 10
 	nameFmt := "name%d"
-	methods := make([]*Method, 0)
+	methods := make([]Method, 0)
 
 	// Add
 
 	for n := 0; n < testLoopCnt; n++ {
 		name := fmt.Sprintf(nameFmt, n)
-		method := NewMethod(name)
+		method := NewTestMethod(name)
 		methodMap.Set(method)
 		methods = append(methods, method)
 		if len(methodMap) != (n + 1) {

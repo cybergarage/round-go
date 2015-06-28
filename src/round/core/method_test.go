@@ -9,5 +9,5 @@ import (
 )
 
 func TestNewMethod(t *testing.T) {
-	NewMethod("")
+	NewBaseMethod("")
 }

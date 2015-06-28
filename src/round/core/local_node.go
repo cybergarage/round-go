@@ -20,8 +20,10 @@ func NewLocalNode() *LocalNode {
 	node := &LocalNode{NodeBase: &NodeBase{}}
 
 	node.regMgr = NewRegistryManager()
-	node.methodMgr = NewMethodManager()
 	node.scriptMgr = NewScriptManager()
+
+	node.methodMgr = NewMethodManager()
+	node.initDefaultMethods()
 
 	node.msgMgr = NewMessageManager()
 	node.msgMgr.SetListener(node)
@@ -29,11 +31,9 @@ func NewLocalNode() *LocalNode {
 	return node
 }
 
-func (self *LocalNode) initStaticMethods() bool {
-	return true
-}
+func (self *LocalNode) initDefaultMethods() bool {
+	self.methodMgr.SetDynamicMethod(NewGetRegistryMethod())
 
-func (self *LocalNode) initDynaimicMethods() bool {
 	return true
 }
 

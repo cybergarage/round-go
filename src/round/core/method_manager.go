@@ -36,14 +36,14 @@ func (self *MethodManager) IsDynamicMethod(name string) bool {
 }
 
 // SetStaticMethod adds a method as a static method.
-func (self *MethodManager) SetStaticMethod(method *Method) bool {
-	self.staticMethods[method.Name] = method
+func (self *MethodManager) SetStaticMethod(method Method) bool {
+	self.staticMethods[method.GetName()] = method
 	return true
 }
 
 // SetDynamicMethod adds a method as a dynamic method.
-func (self *MethodManager) SetDynamicMethod(method *Method) bool {
-	self.dynamicMethods[method.Name] = method
+func (self *MethodManager) SetDynamicMethod(method Method) bool {
+	self.dynamicMethods[method.GetName()] = method
 	return true
 }
 
@@ -59,7 +59,7 @@ func (self *MethodManager) HasMethod(name string) bool {
 }
 
 // GetMethod returns a method by the specified name.
-func (self *MethodManager) GetMethod(name string) (*Method, error) {
+func (self *MethodManager) GetMethod(name string) (Method, error) {
 	method, ok := self.staticMethods[name]
 	if ok {
 		return method, nil
