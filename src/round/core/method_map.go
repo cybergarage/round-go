@@ -5,7 +5,7 @@
 package core
 
 // A MethodMap represents a method map.
-type MethodMap map[string]*Method
+type MethodMap map[string]Method
 
 // NewMethodMap returns a new MethodMap.
 func NewMethodMap() MethodMap {
@@ -14,13 +14,13 @@ func NewMethodMap() MethodMap {
 }
 
 // Set sets a method with the specified name.
-func (self MethodMap) Set(method *Method) error {
-	self[method.Name] = method
+func (self MethodMap) Set(method Method) error {
+	self[method.GetName()] = method
 	return nil
 }
 
 // Get gets a method by the specified name.
-func (self MethodMap) Get(name string) (*Method, bool) {
+func (self MethodMap) Get(name string) (Method, bool) {
 	method, ok := self[name]
 	return method, ok
 }

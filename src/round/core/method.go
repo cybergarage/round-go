@@ -5,26 +5,27 @@
 package core
 
 import (
-	"round"
 	"round/core/rpc"
 )
 
-const (
-	errorBadExecMethod = "Method::Exec() is not overridded"
-)
+// A Methoder represents a node interface.
+type Method interface {
+	GetName() string
+	Exec(*LocalNode, *rpc.Request) (*rpc.Response, *rpc.Error)
+}
 
 // A Method represents a node method.
-type Method struct {
+type BaseMethod struct {
 	Name string
 }
 
 // NewMethod returns a new Method.
-func NewMethod(name string) *Method {
-	method := &Method{Name: name}
+func NewBaseMethod(name string) *BaseMethod {
+	method := &BaseMethod{Name: name}
 	return method
 }
 
-// Exec runs the specified request on the local node.
-func (self *Method) Exec(node *LocalNode, req *rpc.Request) (*rpc.Response, *round.Error) {
-	return nil, round.NewError()
+// GetName returns a name.
+func (self *BaseMethod) GetName() string {
+	return self.Name
 }

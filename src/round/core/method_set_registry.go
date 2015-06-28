@@ -11,12 +11,12 @@ import (
 
 // A Method represents a node method.
 type SetRegistry struct {
-	*Method
+	*BaseMethod
 }
 
 // NewMethod returns a new Method.
-func NewSetRegistry() *SetRegistry {
-	method := &SetRegistry{NewMethod(round.SystemMethodSetRegistry)}
+func NewSetRegistryMethod() *SetRegistry {
+	method := &SetRegistry{NewBaseMethod(round.SystemMethodSetRegistry)}
 	return method
 }
 
