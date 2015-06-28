@@ -4,6 +4,10 @@
 
 package round
 
+import (
+	"round/core/rpc"
+)
+
 // A Error represents a error object for round.
 type Error struct {
 	Code          int
@@ -12,8 +16,14 @@ type Error struct {
 	DetailMessage string
 }
 
-// NewError returns a new Request.
+// NewError returns a new error.
 func NewError() *Error {
+	err := &Error{}
+	return err
+}
+
+// NewError returns a new error from the specified RPC error.
+func NewErrorFromRPCError(rpcError *rpc.Error) *Error {
 	err := &Error{}
 	return err
 }

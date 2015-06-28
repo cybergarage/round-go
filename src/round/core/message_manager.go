@@ -6,6 +6,7 @@ package core
 
 import (
 	"errors"
+	"round"
 )
 
 const (
@@ -15,7 +16,7 @@ const (
 
 // A MessageManagerListener represents a message listener interface.
 type MessageManagerListener interface {
-	MessageReceived(*Message)
+	MessageReceived(*Message) *round.Error
 }
 
 // A MessageManager represents a message queue.

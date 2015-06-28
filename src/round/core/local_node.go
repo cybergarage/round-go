@@ -4,11 +4,15 @@
 
 package core
 
-import ()
+import (
+	"encoding/json"
+	"round"
+	"round/core/rpc"
+)
 
 // A LocalNode represents a local node.
 type LocalNode struct {
-	*NodeBase
+	*BaseNode
 	regMgr    *RegistryManager
 	msgMgr    *MessageManager
 	methodMgr *MethodManager
@@ -17,7 +21,7 @@ type LocalNode struct {
 
 // NewLocalNode returns a new LocalNode.
 func NewLocalNode() *LocalNode {
-	node := &LocalNode{NodeBase: &NodeBase{}}
+	node := &LocalNode{BaseNode: NewBaseNode()}
 
 	node.regMgr = NewRegistryManager()
 	node.scriptMgr = NewScriptManager()
@@ -32,6 +36,7 @@ func NewLocalNode() *LocalNode {
 }
 
 func (self *LocalNode) initDefaultMethods() bool {
+	self.methodMgr.SetDynamicMethod(NewSetRegistryMethod())
 	self.methodMgr.SetDynamicMethod(NewGetRegistryMethod())
 
 	return true
@@ -68,5 +73,83 @@ func (self *LocalNode) Stop() error {
 	return nil
 }
 
-func (self *LocalNode) MessageReceived(msg *Message) {
+// Exec runs the specified request.
+func (self *LocalNode) Exec(req *rpc.Request) (*rpc.Response, *rpc.Error) {
+	/*
+	  // Set id and ts parameter
+
+	  size_t msgId;
+	  if (nodeReq->getId(&msgId)) {
+	    nodeRes->setId(msgId);
+	  }
+	  nodeRes->setTimestamp(getLocalClock());
+
+	  // Exec Message
+
+	  std::string name;
+	  if (!nodeReq->getMethod(&name) || (name.length() <= 0)) {
+	    setError(RPC::JSON::ErrorCodeMethodNotFound, error);
+	    return false;
+	  }
+
+	  bool isMethodExecuted = false;
+	  bool isMethodSuccess = false;
+
+	  if (isStaticMethod(name)) {
+	    isMethodExecuted = true;
+	    isMethodSuccess = execStaticMethod(nodeReq, nodeRes, error);
+	  }
+	  else if (isDynamicMethod(name)) {
+	    isMethodExecuted = true;
+	    isMethodSuccess = execDynamicMethod(nodeReq, nodeRes, error);
+	  }
+	  else if (isNativeMethod(name)) {
+	    isMethodExecuted = true;
+	    isMethodSuccess = execNativeMethod(nodeReq, nodeRes, error);
+	  }
+	  else if (isAliasMethod(name)) {
+	    isMethodExecuted = true;
+	    isMethodSuccess = execAliasMethod(nodeReq, nodeRes, error);
+	  }
+
+	  if (!isMethodExecuted) {
+	    setError(RPC::JSON::ErrorCodeMethodNotFound, error);
+	    return false;
+	  }
+
+	  if (!isMethodSuccess)
+	    return false;
+
+	  if (!hasRoute(name)) {
+	    return true;
+	  }
+
+	  NodeResponse routeNodeRes;
+	  if (!execRoute(name, nodeRes, &routeNodeRes, error)) {
+	    return false;
+	  }
+
+	  nodeRes->set(&routeNodeRes);
+	*/
+
+	return nil, nil
+}
+
+// MessageReceived is a listner for MessageManager.
+func (self *LocalNode) MessageReceived(msg *Message) *round.Error {
+	self.Lock()
+	defer self.Unlock()
+
+	var rpcReq rpc.Request
+	err := json.Unmarshal([]byte(msg.Content), rpcReq)
+	if err != nil {
+		return round.NewErrorFromRPCError(rpc.NewError(rpc.ErrorCodeInvalidParams))
+	}
+
+	_, rpcErr := self.Exec(&rpcReq)
+	if rpcErr != nil {
+		return round.NewErrorFromRPCError(rpcErr)
+	}
+
+	return nil
 }

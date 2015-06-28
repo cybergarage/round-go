@@ -14,6 +14,7 @@ type Request struct {
 	Method     string `json:"method"`
 	Params     string `json:"params"`
 	Id         string `json:"id"`
+	Timestamp  string `json:"ts"`
 	jsonParams interface{}
 }
 

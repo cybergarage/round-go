@@ -5,6 +5,7 @@
 package core
 
 import (
+	"round"
 	"strconv"
 	"testing"
 	"time"
@@ -21,12 +22,13 @@ type TestMessageManagerListener struct {
 	Sum    int
 }
 
-func (self *TestMessageManagerListener) MessageReceived(msg *Message) {
+func (self *TestMessageManagerListener) MessageReceived(msg *Message) *round.Error {
 	value, err := strconv.Atoi(msg.Content)
 	if err == nil {
 		self.Values = append(self.Values, value)
 		self.Sum += value
 	}
+	return nil
 }
 
 func TestNewMessageManager(t *testing.T) {
