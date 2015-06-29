@@ -8,7 +8,7 @@
 #
 ###################################################################
 
-packages = round round/core round/core/rpc round/config round/log round/script
+packages = round round/core round/common/ round/core/rpc round/config round/log round/script
 
 	
 all: build
