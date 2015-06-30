@@ -23,18 +23,36 @@ func NewContentHashGraph() *ContentHashGraph {
 	return cluster
 }
 
-// AddNode add a new node into the content hash graph.
-func (self *ContentHashGraph) AddNode(obj interface{}) bool {
-	hashObj, ok := obj.(ContentHashObjecter)
+// AddNode adds a new node into the content hash graph.
+func (self *ContentHashGraph) AddObject(obj interface{}) bool {
+	hashObj, ok := IsHashObject(obj)
 	if !ok {
 		return false
 	}
 	_ = hashObj.GetHashSeed()
 
 	self.Lock()
-	defer self.UnLock()
+	defer self.Unlock()
 
 	for e := self.Front(); e != nil; e = e.Next() {
 	}
+
+	return true
+}
+
+// RemveObject removes the specified node in the content hash graph.
+func (self *ContentHashGraph) RemoveObject(obj interface{}) bool {
+	hashObj, ok := IsHashObject(obj)
+	if !ok {
+		return false
+	}
+	_ = hashObj.GetHashSeed()
+
+	self.Lock()
+	defer self.Unlock()
+
+	for e := self.Front(); e != nil; e = e.Next() {
+	}
+
 	return true
 }
