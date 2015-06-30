@@ -16,26 +16,16 @@ type Node interface {
 
 // A NodeBase represents a base node.
 type BaseNode struct {
-	mutex *sync.Mutex
+	*sync.Mutex
 	clock *Clock
 }
 
 // NewBaseNode returns a new BaseNode.
 func NewBaseNode() *BaseNode {
 	node := &BaseNode{}
-	node.mutex = &sync.Mutex{}
+	node.Mutex = &sync.Mutex{}
 	node.clock = NewClock()
 	return node
-}
-
-// Lock locks a mutex of the node.
-func (self *BaseNode) Lock() {
-	self.mutex.Lock()
-}
-
-// Unlock unlocks a mutex of the node.
-func (self *BaseNode) Unlock() {
-	self.mutex.Unlock()
 }
 
 // PostMessage is dummy. The method have to be overrided.
