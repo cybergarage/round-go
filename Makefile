@@ -8,13 +8,18 @@
 #
 ###################################################################
 
-packages = round round/core round/core/rpc round/config round/log round/script
+packages = round round/core round/common/ round/core/rpc round/config round/log round/script
 
+.PHONY: ./src/round/version.go
 	
 all: build
 
+./src/round/version.go: ./src/round/version.gen
+	$< > $@
+ 
+versions: ./src/round/version.go
 
-format:
+format: versions
 	gofmt -w src
 
 cgo: format
