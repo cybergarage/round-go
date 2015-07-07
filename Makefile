@@ -17,9 +17,9 @@ all: build
 ./src/round/version.go: ./src/round/version.gen
 	$< > $@
  
-versions: ./src/round/version.go
+version: ./src/round/version.go
 
-format: versions
+format:
 	gofmt -w src
 
 cgo: format
