@@ -8,32 +8,38 @@
 #
 ###################################################################
 
-packages = round round/core round/common/ round/core/rpc round/config round/log round/script
+PRODUCT=round
+GITHUB=github.com/cybergarage/${PRODUCT}-go
 
-.PHONY: ./src/round/version.go
+PACKAGES = ${GITHUB}/${PRODUCT} ${GITHUB}/${PRODUCT}/core ${GITHUB}/${PRODUCT}/common/ ${GITHUB}/${PRODUCT}/core/rpc ${GITHUB}/${PRODUCT}/config ${GITHUB}/${PRODUCT}/log ${GITHUB}/${PRODUCT}/script
+
+.PHONY: ./${PRODUCT}/version.go
 	
 all: build
 
-./src/round/version.go: ./src/round/version.gen
+./${PRODUCT}/version.go: ./${PRODUCT}/version.gen
 	$< > $@
  
-version: ./src/round/version.go
+version: ./${PRODUCT}/version.go
+
+setup:
+	go get -u ${GITHUB}/${PRODUCT}
 
 format:
 	gofmt -w src
 
 cgo: format
-	go tool cgo src/round/script/global_script_func.go
+	go tool cgo ${GITHUB}/${PRODUCT}/script/global_script_func.go
 
 build: cgo
-	go build -v ${packages}
+	go build -v ${PACKAGES}
 
 test: build
-	go test -v ${packages}
+	go test -v ${PACKAGES}
 
 install: build
-	go install ${packages}
+	go install ${PACKAGES}
 
 clean:
 	rm -rf _obj
-	go clean -i ${packages}
+	go clean -i ${PACKAGES}
