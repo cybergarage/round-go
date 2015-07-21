@@ -23,6 +23,7 @@ all: build
 version: ./${PRODUCT}/version.go
 
 setup:
+	go get -u github.com/cybergarage/go-net-upnp/net/upnp
 	go get -u ${GITHUB}/${PRODUCT}
 
 format:
