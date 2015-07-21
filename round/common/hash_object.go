@@ -9,7 +9,9 @@ import (
 	"fmt"
 )
 
-const ()
+const (
+	HashCodeSize = (sha256.Size * 2)
+)
 
 const (
 	errorNoHashObject = "[%#v] has no HashObjecter interface"
@@ -30,23 +32,18 @@ func NewHashObject() *HashObject {
 	return hashObj
 }
 
-func GetHashCodeLength() int {
-	return sha256.Size * 2
-}
-
-// IsHashObject check whether the specified object has HashObjecter interface.
-func IsHashObject(obj interface{}) (HashObjecter, bool) {
-	hashObj, ok := obj.(HashObjecter)
-	return hashObj, ok
-}
-
 // GetHashCode returns a hash code of the specified object.
 func (self *HashObject) GetHashCode() (string, error) {
-	hashObj, ok := IsHashObject(self)
-	if !ok {
-		return "", fmt.Errorf(errorNoHashObject, self)
-	}
-	hashSeed := hashObj.GetHashSeed()
+	hashSeed := self.GetHashSeed()
 	hashByte := sha256.Sum256([]byte(hashSeed))
-	return string(hashByte[:]), nil
+	var hashCode string
+	for _, b := range hashByte {
+		hashCode += fmt.Sprintf("%x", b)
+	}
+	return hashCode, nil
+}
+
+// GetHashSeed returns a blnak seed.
+func (self *HashObject) GetHashSeed() string {
+	return ""
 }

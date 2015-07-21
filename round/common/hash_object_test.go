@@ -9,7 +9,8 @@ import (
 )
 
 const (
-	errorHashObjectInvalidLength = "HashObject (#v) is invalid length = %d: expected %d"
+	errorHashObjectGetHashSeedNotOverrided = "GetHashSeed() is not overrided"
+	errorHashObjectInvalidLength           = "HashObject (%#v) is invalid length = %d: expected %d"
 )
 
 func TestNewHashObject(t *testing.T) {
@@ -19,12 +20,17 @@ func TestNewHashObject(t *testing.T) {
 func TestNewTestHashObject(t *testing.T) {
 	hashObj := NewTestHashObject()
 
+	hashSeed := hashObj.GetHashSeed()
+	if len(hashSeed) <= 0 {
+		t.Errorf(errorHashObjectGetHashSeedNotOverrided)
+	}
+
 	hashCode, err := hashObj.GetHashCode()
 	if err != nil {
 		t.Error(err)
 	}
 
-	if len(hashCode) == GetHashCodeLength() {
-		t.Errorf(errorHashObjectInvalidLength, hashObj, len(hashCode), GetHashCodeLength())
+	if len(hashCode) != HashCodeSize {
+		t.Errorf(errorHashObjectInvalidLength, hashObj, len(hashCode), HashCodeSize)
 	}
 }
