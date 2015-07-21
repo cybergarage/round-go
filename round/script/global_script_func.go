@@ -7,7 +7,7 @@ package script
 import "C"
 
 import (
-	"round/core"
+	"github.com/cybergarage/round-go/round/core"
 )
 
 var currentScriptLocalNode *core.LocalNode = nil

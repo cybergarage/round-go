@@ -6,8 +6,9 @@ package script
 
 import (
 	"fmt"
-	"round/core"
 	"testing"
+
+	"github.com/cybergarage/round-go/round/core"
 )
 
 const (

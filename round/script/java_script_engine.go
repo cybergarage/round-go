@@ -12,7 +12,8 @@ import "C"
 import (
 	//"fmt"
 	"errors"
-	"round/core"
+
+	"github.com/cybergarage/round-go/round/core"
 )
 
 type JavaScriptEngine struct {

@@ -5,10 +5,11 @@
 package core
 
 import (
-	"round"
 	"strconv"
 	"testing"
 	"time"
+
+	"github.com/cybergarage/round-go/round"
 )
 
 const (

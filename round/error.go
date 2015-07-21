@@ -5,7 +5,7 @@
 package round
 
 import (
-	"round/core/rpc"
+	"github.com/cybergarage/round-go/round/core/rpc"
 )
 
 // A Error represents a error object for round.

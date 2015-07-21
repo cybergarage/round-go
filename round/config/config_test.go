@@ -7,8 +7,9 @@ package config
 import (
 	"errors"
 	"fmt"
-	"round/log"
 	"testing"
+
+	"github.com/cybergarage/round-go/round/log"
 )
 
 const (

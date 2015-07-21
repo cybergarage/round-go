@@ -5,8 +5,8 @@
 package core
 
 import (
-	"round"
-	"round/core/rpc"
+	"github.com/cybergarage/round-go/round"
+	"github.com/cybergarage/round-go/round/core/rpc"
 )
 
 // A Method represents a node method.

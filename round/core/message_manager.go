@@ -6,7 +6,8 @@ package core
 
 import (
 	"errors"
-	"round"
+
+	"github.com/cybergarage/round-go/round"
 )
 
 const (

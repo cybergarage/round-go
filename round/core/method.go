@@ -5,7 +5,7 @@
 package core
 
 import (
-	"round/core/rpc"
+	"github.com/cybergarage/round-go/round/core/rpc"
 )
 
 // A Methoder represents a node interface.

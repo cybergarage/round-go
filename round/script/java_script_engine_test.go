@@ -5,8 +5,9 @@
 package script
 
 import (
-	"round/core"
 	"testing"
+
+	"github.com/cybergarage/round-go/round/core"
 )
 
 func TestNewJavaScriptEngine(t *testing.T) {
