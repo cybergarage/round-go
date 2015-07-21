@@ -6,6 +6,13 @@ package common
 
 import (
 	"crypto/sha256"
+	"fmt"
+)
+
+const ()
+
+const (
+	errorNoHashObject = "[%#v] has no HashObjecter interface"
 )
 
 // A HashObjecter represents a listener of HashObjecter.
@@ -23,6 +30,10 @@ func NewHashObject() *HashObject {
 	return hashObj
 }
 
+func GetHashCodeLength() int {
+	return sha256.Size * 2
+}
+
 // IsHashObject check whether the specified object has HashObjecter interface.
 func IsHashObject(obj interface{}) (HashObjecter, bool) {
 	hashObj, ok := obj.(HashObjecter)
@@ -30,12 +41,12 @@ func IsHashObject(obj interface{}) (HashObjecter, bool) {
 }
 
 // GetHashCode returns a hash code of the specified object.
-func (self *HashObject) GetHashCode() (string, bool) {
+func (self *HashObject) GetHashCode() (string, error) {
 	hashObj, ok := IsHashObject(self)
 	if !ok {
-		return "", false
+		return "", fmt.Errorf(errorNoHashObject, self)
 	}
 	hashSeed := hashObj.GetHashSeed()
 	hashByte := sha256.Sum256([]byte(hashSeed))
-	return string(hashByte[:]), true
+	return string(hashByte[:]), nil
 }
