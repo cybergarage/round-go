@@ -4,7 +4,7 @@
 
 package script
 
-// #cgo CFLAGS: -I/usr/local/include -DROUND_SUPPORT_LUA -I../../../_obj
+// #cgo CFLAGS: -I/usr/local/include -DROUND_SUPPORT_LUA
 // #cgo LDFLAGS: -L/usr/local/lib -lround -llua
 // #include <roundc/round.h>
 // int round_lua_setregistry(lua_State* L);

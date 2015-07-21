@@ -4,7 +4,7 @@
 
 package script
 
-// #cgo CFLAGS: -I/usr/local/include -DROUND_SUPPORT_LUA -I../../../_obj -I../../../../../../_obj
+// #cgo CFLAGS: -I/usr/local/include -DROUND_SUPPORT_LUA -I../../../../../../_obj
 // #cgo LDFLAGS: -L/usr/local/lib -lround -llua
 // #include <roundc/round.h>
 // #include "_cgo_export.h"
