@@ -6,7 +6,7 @@ package core
 
 import (
 	//"errors"
-	"round/core/rpc"
+	"github.com/cybergarage/round-go/round/core/rpc"
 )
 
 // A MethodManager represents a manager for node methods.

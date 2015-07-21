@@ -6,8 +6,9 @@ package core
 
 import (
 	"encoding/json"
-	"round"
-	"round/core/rpc"
+
+	"github.com/cybergarage/round-go/round"
+	"github.com/cybergarage/round-go/round/core/rpc"
 )
 
 // A LocalNode represents a local node.

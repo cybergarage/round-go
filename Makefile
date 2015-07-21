@@ -28,10 +28,10 @@ setup:
 format:
 	gofmt -w src
 
-cgo: format
-	go tool cgo ${GITHUB}/${PRODUCT}/script/global_script_func.go
+cgo: 
+	go tool cgo ./${PRODUCT}/script/global_script_func.go
 
-build: cgo
+build: cgo format
 	go build -v ${PACKAGES}
 
 test: build

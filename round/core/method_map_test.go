@@ -6,8 +6,9 @@ package core
 
 import (
 	"fmt"
-	"round/core/rpc"
 	"testing"
+
+	"github.com/cybergarage/round-go/round/core/rpc"
 )
 
 const (

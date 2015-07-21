@@ -14,8 +14,9 @@ import "C"
 import (
 	//"fmt"
 	"errors"
-	"round"
-	"round/core"
+
+	"github.com/cybergarage/round-go/round"
+	"github.com/cybergarage/round-go/round/core"
 )
 
 type LuaEngine struct {
