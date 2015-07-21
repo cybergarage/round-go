@@ -25,12 +25,6 @@ func NewContentHashGraph() *ContentHashGraph {
 
 // AddNode adds a new node into the content hash graph.
 func (self *ContentHashGraph) AddObject(obj interface{}) bool {
-	hashObj, ok := IsHashObject(obj)
-	if !ok {
-		return false
-	}
-	_ = hashObj.GetHashSeed()
-
 	self.Lock()
 	defer self.Unlock()
 
@@ -42,12 +36,6 @@ func (self *ContentHashGraph) AddObject(obj interface{}) bool {
 
 // RemveObject removes the specified node in the content hash graph.
 func (self *ContentHashGraph) RemoveObject(obj interface{}) bool {
-	hashObj, ok := IsHashObject(obj)
-	if !ok {
-		return false
-	}
-	_ = hashObj.GetHashSeed()
-
 	self.Lock()
 	defer self.Unlock()
 
