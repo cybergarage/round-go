@@ -20,3 +20,18 @@ func NewCluster() *Cluster {
 	}
 	return cluster
 }
+
+// AddNode adds a new node into the content hash graph.
+func (self *Cluster) AddNode(node interface{}) error {
+	return self.AddObject(node)
+}
+
+// RemoveNode removes the specified node in the content hash graph.
+func (self *Cluster) RemoveNode(node interface{}) error {
+	return self.RemoveObject(node)
+}
+
+// GetHandleNode returns a handle node of the specfied hash object.
+func (self *Cluster) GetHandleNode(targetHashObj common.HashObject) (interface{}, error) {
+	return self.GetHandleObject(targetHashObj)
+}
