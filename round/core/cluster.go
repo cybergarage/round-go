@@ -4,12 +4,19 @@
 
 package core
 
+import (
+	"github.com/cybergarage/round-go/round/common"
+)
+
 // A Cluster represents a message queue.
 type Cluster struct {
+	*common.ContentHashGraph
 }
 
 // NewCluster returns a new Cluster.
 func NewCluster() *Cluster {
-	cluster := &Cluster{}
+	cluster := &Cluster{
+		ContentHashGraph: common.NewContentHashGraph(),
+	}
 	return cluster
 }
