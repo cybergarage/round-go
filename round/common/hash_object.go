@@ -33,17 +33,30 @@ func NewHashObject() *HashObject {
 }
 
 // GetHashCode returns a hash code of the specified object.
-func (self *HashObject) GetHashCode() (string, error) {
+func (self *HashObject) GetHashCode() string {
 	hashSeed := self.GetHashSeed()
 	hashByte := sha256.Sum256([]byte(hashSeed))
 	var hashCode string
 	for _, b := range hashByte {
 		hashCode += fmt.Sprintf("%x", b)
 	}
-	return hashCode, nil
+	return hashCode
 }
 
 // GetHashSeed returns a blnak seed.
 func (self *HashObject) GetHashSeed() string {
 	return ""
+}
+
+// Compare returns a compare result with the specifice object.
+func (self *HashObject) Compare(otherObj *HashObject) int {
+	selfHashCode := self.GetHashCode()
+	otherHashCode := otherObj.GetHashCode()
+	if selfHashCode == otherHashCode {
+		return 0
+	}
+	if selfHashCode < otherHashCode {
+		return 1
+	}
+	return -1
 }
