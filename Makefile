@@ -35,7 +35,7 @@ build: cgo format
 	go build -v ${PACKAGES}
 
 test: build
-	go test -v ${PACKAGES}
+	go test -v -cover ${PACKAGES}
 
 install: build
 	go install ${PACKAGES}

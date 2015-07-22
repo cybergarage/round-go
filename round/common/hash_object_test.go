@@ -11,10 +11,11 @@ import (
 const (
 	errorHashObjectGetHashSeedNotOverrided = "GetHashSeed() is not overrided"
 	errorHashObjectInvalidLength           = "HashObject (%#v) is invalid length = %d: expected %d"
+	errorHashObjectCompareInvalid          = "(%s, %s) = %d: expected %d"
 )
 
 func TestNewHashObject(t *testing.T) {
-	NewHashObject()
+	NewHashBaseObject()
 }
 
 func TestNewTestHashObject(t *testing.T) {
@@ -29,5 +30,49 @@ func TestNewTestHashObject(t *testing.T) {
 
 	if len(hashCode) != HashCodeSize {
 		t.Errorf(errorHashObjectInvalidLength, hashObj, len(hashCode), HashCodeSize)
+	}
+}
+
+func TestHashObjectCompare(t *testing.T) {
+	// number strings
+
+	codes := []string{"0", "0"}
+	cmp := HashCodeCompare(codes[0], codes[1])
+	if cmp != HashCodeCompareEqual {
+		t.Errorf(errorHashObjectCompareInvalid, codes[0], codes[1], cmp, HashCodeCompareEqual)
+	}
+
+	codes = []string{"0", "1"}
+	cmp = HashCodeCompare(codes[0], codes[1])
+	if cmp != HashCodeCompareGreater {
+		t.Errorf(errorHashObjectCompareInvalid, codes[0], codes[1], cmp, HashCodeCompareGreater)
+	}
+
+	// number, alpha string
+
+	codes = []string{"0", "a"}
+	cmp = HashCodeCompare(codes[0], codes[1])
+	if cmp != HashCodeCompareGreater {
+		t.Errorf(errorHashObjectCompareInvalid, codes[0], codes[1], cmp, HashCodeCompareGreater)
+	}
+
+	codes = []string{"a", "0"}
+	cmp = HashCodeCompare(codes[0], codes[1])
+	if cmp != HashCodeCompareLess {
+		t.Errorf(errorHashObjectCompareInvalid, codes[0], codes[1], cmp, HashCodeCompareLess)
+	}
+
+	// number, alpha strings
+
+	codes = []string{"0000000000", "ffffffffff"}
+	cmp = HashCodeCompare(codes[0], codes[1])
+	if cmp != HashCodeCompareGreater {
+		t.Errorf(errorHashObjectCompareInvalid, codes[0], codes[1], cmp, HashCodeCompareGreater)
+	}
+
+	codes = []string{"ffffffffff", "0000000000"}
+	cmp = HashCodeCompare(codes[0], codes[1])
+	if cmp != HashCodeCompareLess {
+		t.Errorf(errorHashObjectCompareInvalid, codes[0], codes[1], cmp, HashCodeCompareLess)
 	}
 }

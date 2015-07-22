@@ -9,13 +9,15 @@ import (
 	"math/rand"
 )
 
+// TestHashObject
+
 type TestHashObject struct {
-	*HashObject
+	*HashBaseObject
 }
 
 func NewTestHashObject() *TestHashObject {
 	hashObj := &TestHashObject{}
-	hashObj.HashObject = NewHashObject()
+	hashObj.HashBaseObject = NewHashBaseObject()
 	return hashObj
 }
 
