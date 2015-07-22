@@ -25,10 +25,7 @@ func TestNewTestHashObject(t *testing.T) {
 		t.Errorf(errorHashObjectGetHashSeedNotOverrided)
 	}
 
-	hashCode, err := hashObj.GetHashCode()
-	if err != nil {
-		t.Error(err)
-	}
+	hashCode := hashObj.GetHashCode()
 
 	if len(hashCode) != HashCodeSize {
 		t.Errorf(errorHashObjectInvalidLength, hashObj, len(hashCode), HashCodeSize)
