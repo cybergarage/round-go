@@ -14,6 +14,7 @@ import (
 // A LocalNode represents a local node.
 type LocalNode struct {
 	*BaseNode
+	cluster   *Cluster
 	regMgr    *RegistryManager
 	msgMgr    *MessageManager
 	methodMgr *MethodManager
@@ -22,18 +23,27 @@ type LocalNode struct {
 
 // NewLocalNode returns a new LocalNode.
 func NewLocalNode() *LocalNode {
-	node := &LocalNode{BaseNode: NewBaseNode()}
+	node := &LocalNode{
+		BaseNode:  NewBaseNode(),
+		cluster:   NewCluster(),
+		regMgr:    NewRegistryManager(),
+		msgMgr:    NewMessageManager(),
+		scriptMgr: NewScriptManager(),
+		methodMgr: NewMethodManager(),
+	}
 
-	node.regMgr = NewRegistryManager()
-	node.scriptMgr = NewScriptManager()
-
-	node.methodMgr = NewMethodManager()
-	node.initDefaultMethods()
-
-	node.msgMgr = NewMessageManager()
-	node.msgMgr.SetListener(node)
+	node.init()
 
 	return node
+}
+
+func (self *LocalNode) init() bool {
+	self.initDefaultMethods()
+
+	self.cluster.AddNode(self)
+	self.msgMgr.SetListener(self)
+
+	return true
 }
 
 func (self *LocalNode) initDefaultMethods() bool {
