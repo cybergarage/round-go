@@ -6,36 +6,65 @@ package common
 
 import (
 	"crypto/sha256"
+	"fmt"
 )
 
+const (
+	HashCodeSize = (sha256.Size * 2)
+
+	HashCodeCompareEqual   = 0
+	HashCodeCompareGreater = 1
+	HashCodeCompareLess    = -1
+)
+
+const (
+	errorNoHashObject = "[%#v] has no HashObjecter interface"
+)
+
+// HashCodeCompare returns a compare result with the specifice object.
+func HashCodeCompare(selfHashCode, otherHashCode string) int {
+	if selfHashCode == otherHashCode {
+		return HashCodeCompareEqual
+	}
+	if selfHashCode < otherHashCode {
+		return HashCodeCompareGreater
+	}
+	return HashCodeCompareLess
+}
+
 // A HashObjecter represents a listener of HashObjecter.
-type HashObjecter interface {
+type HashObject interface {
 	GetHashSeed() string
+	GetHashCode() string
 }
 
 // A HashObject represents a ContentHashObject.
-type HashObject struct {
+type HashBaseObject struct {
 }
 
 // NewHashObject returns a new NewHashObject.
-func NewHashObject() *HashObject {
-	hashObj := &HashObject{}
+func NewHashBaseObject() *HashBaseObject {
+	hashObj := &HashBaseObject{}
 	return hashObj
 }
 
-// IsHashObject check whether the specified object has HashObjecter interface.
-func IsHashObject(obj interface{}) (HashObjecter, bool) {
-	hashObj, ok := obj.(HashObjecter)
-	return hashObj, ok
+// GetHashCode returns a hash code of the specified object.
+func (self *HashBaseObject) GetHashCode() string {
+	hashSeed := self.GetHashSeed()
+	hashByte := sha256.Sum256([]byte(hashSeed))
+	var hashCode string
+	for _, b := range hashByte {
+		hashCode += fmt.Sprintf("%x", b)
+	}
+	return hashCode
 }
 
-// GetHashCode returns a hash code of the specified object.
-func (self *HashObject) GetHashCode() (string, bool) {
-	hashObj, ok := IsHashObject(self)
-	if !ok {
-		return "", false
-	}
-	hashSeed := hashObj.GetHashSeed()
-	hashByte := sha256.Sum256([]byte(hashSeed))
-	return string(hashByte[:]), true
+// GetHashSeed returns a blnak seed.
+func (self *HashBaseObject) GetHashSeed() string {
+	return ""
+}
+
+// Compare returns a compare result with the specifice object.
+func (self *HashBaseObject) Compare(otherObj HashObject) int {
+	return HashCodeCompare(self.GetHashCode(), otherObj.GetHashCode())
 }

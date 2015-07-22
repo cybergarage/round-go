@@ -6,12 +6,12 @@ package common
 
 // A ContentHashObject represents a ContentHashObject.
 type ContentHashObject struct {
-	*HashObject
+	*HashBaseObject
 }
 
 // NewContentHashObject returns a new ContentHashObject.
 func NewContentHashObject() *ContentHashObject {
 	cotentObj := &ContentHashObject{}
-	cotentObj.HashObject = NewHashObject()
+	cotentObj.HashBaseObject = NewHashBaseObject()
 	return cotentObj
 }

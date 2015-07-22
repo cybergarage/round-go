@@ -6,26 +6,51 @@ package core
 
 import (
 	"encoding/json"
+	"fmt"
 	"sync"
+
+	"github.com/cybergarage/round-go/round/common"
+)
+
+const (
+	errorNodeHasNoNodeInterfaces = "%#v has no Node interface"
 )
 
 // A base node  represents a JSON-RPC Request.
 type Node interface {
+	GetRequestAddress() string
+	GetRequestPort() int
 	PostMessage(reqMsg string) (resMsg string, err error)
 }
 
 // A NodeBase represents a base node.
 type BaseNode struct {
 	*sync.Mutex
-	clock *Clock
+	*Clock
+	*common.HashBaseObject
 }
 
 // NewBaseNode returns a new BaseNode.
 func NewBaseNode() *BaseNode {
-	node := &BaseNode{}
-	node.Mutex = &sync.Mutex{}
-	node.clock = NewClock()
+	node := &BaseNode{
+		Mutex:          &sync.Mutex{},
+		Clock:          NewClock(),
+		HashBaseObject: common.NewHashBaseObject(),
+	}
 	return node
+}
+
+func (self *BaseNode) GetRequestAddress() string {
+	return ""
+}
+
+func (self *BaseNode) GetRequestPort() int {
+	return 0
+}
+
+// GetHashSeed returns a blnak seed.
+func (self *BaseNode) GetHashSeed() string {
+	return fmt.Sprintf("%s%d", self.GetRequestAddress(), self.GetRequestPort())
 }
 
 // PostMessage is dummy. The method have to be overrided.
