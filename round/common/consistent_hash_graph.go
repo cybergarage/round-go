@@ -30,7 +30,7 @@ func NewContentHashGraph() *ContentHashGraph {
 	return cluster
 }
 
-// AddNode adds a new node into the content hash graph.
+// AddObject adds a new object into the content hash graph.
 func (self *ContentHashGraph) AddObject(newObj interface{}) error {
 	self.Lock()
 	defer self.Unlock()
@@ -69,7 +69,7 @@ func (self *ContentHashGraph) AddObject(newObj interface{}) error {
 	return nil
 }
 
-// RemveObject removes the specified node in the content hash graph.
+// RemveObject removes the specified object in the content hash graph.
 func (self *ContentHashGraph) RemoveObject(obj interface{}) error {
 	self.Lock()
 	defer self.Unlock()
@@ -84,7 +84,7 @@ func (self *ContentHashGraph) RemoveObject(obj interface{}) error {
 	return fmt.Errorf(errorHashGraphCouldNotRemoveObject, self, obj)
 }
 
-// GetHandleObject returns a handle node of the specfied hash object.
+// GetHandleObject returns a handle object of the specfied hash object.
 func (self *ContentHashGraph) GetHandleObject(targetHashObj HashObject) (interface{}, error) {
 	self.Lock()
 	defer self.Unlock()
