@@ -8,18 +8,6 @@ import (
 	"github.com/cybergarage/go-net-upnp/net/upnp"
 )
 
-const (
-	SetTarget      = "SetTarget"
-	NewTargetValue = "newTargetValue"
-	GetTarget      = "GetTarget"
-	RetTargetValue = "RetTargetValue"
-	GetStatus      = "GetStatus"
-	ResultStatus   = "ResultStatus"
-
-	DefaultTarget = "Living"
-	DefaultStatus = true
-)
-
 type Server struct {
 	*upnp.Device
 	Target string
@@ -27,7 +15,7 @@ type Server struct {
 }
 
 func NewServer() (*Server, error) {
-	dev, err := upnp.NewDeviceFromDescription(roundServerDescription)
+	dev, err := upnp.NewDeviceFromDescription(roundServerDeviceDescription)
 	if err != nil {
 		return nil, err
 	}
@@ -37,43 +25,21 @@ func NewServer() (*Server, error) {
 		return nil, err
 	}
 
-	err = service.LoadDescriptionBytes([]byte(roundServiceDescription))
+	err = service.LoadDescriptionBytes([]byte(roundServerServiceDescription))
 	if err != nil {
 		return nil, err
 	}
 
-	lightDev := &Server{
+	server := &Server{
 		Device: dev,
-		Target: DefaultTarget,
-		Status: DefaultStatus,
 	}
-	lightDev.ActionListener = lightDev
+	server.ActionListener = server
 
-	return lightDev, nil
+	return server, nil
 }
 
 func (self *Server) ActionRequestReceived(action *upnp.Action) upnp.Error {
 	switch action.Name {
-	case SetTarget:
-		target, err := action.GetArgumentString(NewTargetValue)
-		if err == nil {
-			self.Target = target
-		} else {
-			return upnp.NewErrorFromCode(upnp.ErrorInvalidArgs)
-		}
-		return nil
-	case GetTarget:
-		err := action.SetArgumentString(RetTargetValue, self.Target)
-		if err != nil {
-			return upnp.NewErrorFromCode(upnp.ErrorInvalidArgs)
-		}
-		return nil
-	case GetStatus:
-		err := action.SetArgumentBool(ResultStatus, self.Status)
-		if err != nil {
-			return upnp.NewErrorFromCode(upnp.ErrorInvalidArgs)
-		}
-		return nil
 	}
 
 	return upnp.NewErrorFromCode(upnp.ErrorOptionalActionNotImplemented)

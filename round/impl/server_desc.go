@@ -8,7 +8,7 @@ import (
 	"encoding/xml"
 )
 
-const roundServerDescription = xml.Header +
+const roundServerDeviceDescription = xml.Header +
 	"<root>" +
 	"  <device>" +
 	"    <serviceList>" +
@@ -20,7 +20,7 @@ const roundServerDescription = xml.Header +
 	"  </device>" +
 	"</root>"
 
-const roundServiceDescription = xml.Header +
+const roundServerServiceDescription = xml.Header +
 	"<scpd>" +
 	"  <serviceStateTable>" +
 	"    <stateVariable>" +
