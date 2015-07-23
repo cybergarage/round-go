@@ -36,6 +36,7 @@ const roundServerDeviceDescription = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
 "  </device>\n" + 
 "</root>\n" + 
 ""
+
 const roundServerServiceDescription = "<?xml version=\"1.0\" encoding=\"UTF-8\?>\n" + 
 "<scpd xmlns=\"urn:schemas-upnp-org:service-1-0\">\n" + 
 "   <specVersion>\n" + 
@@ -60,5 +61,5 @@ const roundServerServiceDescription = "<?xml version=\"1.0\" encoding=\"UTF-8\?>
 "       <dataType>string</dataType>\n" + 
 "     </stateVariable>\n" + 
 "   </serviceStateTable>\n" + 
-"</scpd>\n"; + 
+"</scpd>\n" + 
 ""

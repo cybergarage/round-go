@@ -21,7 +21,7 @@ foreach $desc_line (@desc_lines) {
 	}
 	print $desc_line . " + \n";
 }
-print "\"\"";
+print "\"\"\n";
 
 print "\n";
 
@@ -34,4 +34,4 @@ foreach $desc_line (@desc_lines) {
 	}
 	print $desc_line . " + \n";
 }
-print "\"\"";
+print "\"\"\n";
