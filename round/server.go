@@ -6,10 +6,13 @@ package round
 
 import (
 	"net/http"
+
+	"github.com/cybergarage/round-go/round/impl"
 )
 
 // A Server represents a server.
 type Server struct {
+	*impl.Server
 }
 
 // NewServer returns a new Server.
