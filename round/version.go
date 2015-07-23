@@ -5,5 +5,5 @@
 package round
 
 const (
-	ProductVersion = ""
+	ProductVersion = "0.1"
 )

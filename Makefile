@@ -12,7 +12,7 @@ PRODUCT=round
 GITHUB=github.com/cybergarage/${PRODUCT}-go
 
 PACKAGES = ${GITHUB}/${PRODUCT} ${GITHUB}/${PRODUCT}/core ${GITHUB}/${PRODUCT}/common/ ${GITHUB}/${PRODUCT}/core/rpc ${GITHUB}/${PRODUCT}/config ${GITHUB}/${PRODUCT}/log ${GITHUB}/${PRODUCT}/script ${GITHUB}/${PRODUCT}/impl
-CONST_FILES = ./${PRODUCT}/version.go ./${PRODUCT}/const.go
+CONST_FILES = ./${PRODUCT}/version.go ./${PRODUCT}/const.go ./${PRODUCT}/impl/server_desc.go
 
 .PHONY: ${CONST_FILES}
 
@@ -24,6 +24,9 @@ const: ${CONST_FILES}
 	$< > $@
  
 ./${PRODUCT}/version.go: ./${PRODUCT}/version.go.gen
+	$< > $@
+
+./${PRODUCT}/impl/server_desc.go: ./${PRODUCT}/impl/server_desc.go.gen
 	$< > $@
 
 setup:
