@@ -12,15 +12,19 @@ PRODUCT=round
 GITHUB=github.com/cybergarage/${PRODUCT}-go
 
 PACKAGES = ${GITHUB}/${PRODUCT} ${GITHUB}/${PRODUCT}/core ${GITHUB}/${PRODUCT}/common/ ${GITHUB}/${PRODUCT}/core/rpc ${GITHUB}/${PRODUCT}/config ${GITHUB}/${PRODUCT}/log ${GITHUB}/${PRODUCT}/script
-
-.PHONY: ./${PRODUCT}/version.go
-	
+CONST_FILES = ./${PRODUCT}/version.go ./${PRODUCT}/const.go
+ 
 all: build
 
-./${PRODUCT}/version.go: ./${PRODUCT}/version.gen
+.PHONY: ${CONST_FILES}
+
+const: ${CONST_FILES}
+
+./${PRODUCT}/const.go: ./${PRODUCT}/const.go.gen
 	$< > $@
  
-version: ./${PRODUCT}/version.go
+./${PRODUCT}/version.go: ./${PRODUCT}/version.go.gen
+	$< > $@
 
 setup:
 	go get -u github.com/cybergarage/go-net-upnp/net/upnp
