@@ -7,7 +7,6 @@ package core
 import (
 	"encoding/json"
 
-	"github.com/cybergarage/round-go/round"
 	"github.com/cybergarage/round-go/round/core/rpc"
 )
 
@@ -146,19 +145,19 @@ func (self *LocalNode) Exec(req *rpc.Request) (*rpc.Response, *rpc.Error) {
 }
 
 // MessageReceived is a listner for MessageManager.
-func (self *LocalNode) MessageReceived(msg *Message) *round.Error {
+func (self *LocalNode) MessageReceived(msg *Message) Error {
 	self.Lock()
 	defer self.Unlock()
 
 	var rpcReq rpc.Request
 	err := json.Unmarshal([]byte(msg.Content), rpcReq)
 	if err != nil {
-		return round.NewErrorFromRPCError(rpc.NewError(rpc.ErrorCodeInvalidParams))
+		return NewErrorFromRPCError(rpc.NewError(rpc.ErrorCodeInvalidParams))
 	}
 
 	_, rpcErr := self.Exec(&rpcReq)
 	if rpcErr != nil {
-		return round.NewErrorFromRPCError(rpcErr)
+		return NewErrorFromRPCError(rpcErr)
 	}
 
 	return nil
