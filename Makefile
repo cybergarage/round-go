@@ -33,7 +33,7 @@ ${PRODUCT_DIR}/impl/const.go: ${PRODUCT_DIR}/impl/const.go.gen
 	$< ${PRODUCT_DIR}/const.go > $@
 	gofmt -w $@
 
-${PRODUCT_DIR}/impl/server_desc.go: ${PRODUCT_DIR}/impl/server_desc.go.gen
+${PRODUCT_DIR}/impl/upnp_server_desc.go: ${PRODUCT_DIR}/impl/upnp_server_desc.go.gen
 	$< > $@
 	gofmt -w $@
 

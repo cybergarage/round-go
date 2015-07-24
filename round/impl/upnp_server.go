@@ -5,10 +5,13 @@
 package impl
 
 import (
+	"github.com/cybergarage/round-go/round/core"
+
 	"github.com/cybergarage/go-net-upnp/net/upnp"
 )
 
 type Server struct {
+	*core.Server
 	*upnp.Device
 	Target string
 	Status bool
@@ -31,6 +34,7 @@ func NewServer() (*Server, error) {
 	}
 
 	server := &Server{
+		Server: core.NewServer(),
 		Device: dev,
 	}
 	server.ActionListener = server

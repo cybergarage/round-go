@@ -7,27 +7,24 @@ package impl
 import (
 	"fmt"
 
+	"github.com/cybergarage/round-go/round/core"
+
 	"github.com/cybergarage/go-net-upnp/net/upnp"
 	"github.com/cybergarage/go-net-upnp/net/upnp/log"
 	"github.com/cybergarage/go-net-upnp/net/upnp/ssdp"
 	"github.com/cybergarage/go-net-upnp/net/upnp/util"
 )
 
-// A FinderListener represents a listener for finder.
-type FinderListener interface {
-	NodeAliveReceived(node *Node)
-	NodeDeadReceived(node *Node)
-}
-
 // A Finder represents a Finder.
 type Finder struct {
+	*core.Finder
 	*upnp.ControlPoint
-	Listener FinderListener
 }
 
 // NewFinder returns a new Finder.
 func NewFinder() *Finder {
 	finder := &Finder{
+		Finder:       core.NewFinder(),
 		ControlPoint: upnp.NewControlPoint(),
 	}
 
@@ -40,7 +37,7 @@ func (self *Finder) DeviceNotifyReceived(req *ssdp.Request) {
 	usn, _ := req.GetUSN()
 	log.Trace(fmt.Sprintf("ssdp notiry req : %s %s", usn, ssdpPacketToMessage(req.Packet)))
 
-	if self.Listener == nil {
+	if self.Finder.Listener == nil {
 		return
 	}
 
@@ -52,9 +49,9 @@ func (self *Finder) DeviceNotifyReceived(req *ssdp.Request) {
 
 	switch {
 	case req.IsAlive():
-		self.Listener.NodeAliveReceived(node)
+		self.Finder.Listener.NodeAliveReceived(node)
 	case req.IsByeBye():
-		self.Listener.NodeDeadReceived(node)
+		self.Finder.Listener.NodeDeadReceived(node)
 	}
 }
 
@@ -65,7 +62,7 @@ func (self *Finder) DeviceResponseReceived(res *ssdp.Response) {
 	url, _ := res.GetLocation()
 	log.Trace(fmt.Sprintf("search res : %s %s", url, ssdpPacketToMessage(res.Packet)))
 
-	if self.Listener == nil {
+	if self.Finder.Listener == nil {
 		return
 	}
 
@@ -75,7 +72,7 @@ func (self *Finder) DeviceResponseReceived(res *ssdp.Response) {
 		return
 	}
 
-	self.Listener.NodeAliveReceived(node)
+	self.Finder.Listener.NodeAliveReceived(node)
 }
 
 func ssdpPacketToMessage(req *ssdp.Packet) string {
