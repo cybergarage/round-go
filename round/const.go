@@ -7,7 +7,7 @@ package round
 const (
 	SystemTriggerTimerPrecision     = 0.1
 	UpnpDeviceType                  = "urn:cybergarage-org:device:round:1"
-	UpnpService                     = "urn:cybergarage-org:service:round:1"
+	UpnpServiceType                 = "urn:cybergarage-org:service:round:1"
 	RpcHttpEndpoint                 = "/rpc"
 	RpcHttpContentType              = "application/json"
 	NodeStatusUnknown               = 0

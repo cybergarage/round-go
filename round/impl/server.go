@@ -20,7 +20,7 @@ func NewServer() (*Server, error) {
 		return nil, err
 	}
 
-	service, err := dev.GetServiceByType("urn:schemas-upnp-org:service:SwitchPower:1")
+	service, err := dev.GetServiceByType(UpnpServiceType)
 	if err != nil {
 		return nil, err
 	}

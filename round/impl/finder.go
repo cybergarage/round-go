@@ -5,9 +5,12 @@
 package impl
 
 import (
+	"fmt"
+
 	"github.com/cybergarage/go-net-upnp/net/upnp"
 	"github.com/cybergarage/go-net-upnp/net/upnp/log"
 	"github.com/cybergarage/go-net-upnp/net/upnp/ssdp"
+	"github.com/cybergarage/go-net-upnp/net/upnp/util"
 )
 
 // A FinderListener represents a listener for finder.
