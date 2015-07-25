@@ -24,3 +24,11 @@ func NewServer() *Server {
 // ServeHTTP
 func (server Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
+
+func (self *Server) initDefaultMethods() bool {
+	/*
+		self.methodMgr.SetDynamicMethod(NewSetRegistryMethod())
+		self.methodMgr.SetDynamicMethod(NewGetRegistryMethod())
+	*/
+	return true
+}

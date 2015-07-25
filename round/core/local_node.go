@@ -37,17 +37,8 @@ func NewLocalNode() *LocalNode {
 }
 
 func (self *LocalNode) init() bool {
-	self.initDefaultMethods()
-
 	self.cluster.AddNode(self)
 	self.msgMgr.SetListener(self)
-
-	return true
-}
-
-func (self *LocalNode) initDefaultMethods() bool {
-	self.methodMgr.SetDynamicMethod(NewSetRegistryMethod())
-	self.methodMgr.SetDynamicMethod(NewGetRegistryMethod())
 
 	return true
 }

@@ -8,8 +8,6 @@ import (
 	"strconv"
 	"testing"
 	"time"
-
-	"github.com/cybergarage/round-go/round"
 )
 
 const (

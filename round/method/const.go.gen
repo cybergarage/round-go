@@ -1,0 +1,22 @@
+#!/usr/bin/perl
+print<<HEADER;
+// Copyright 2015 Satoshi Konno. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+package method
+
+const ( 
+HEADER
+if (1 <= @ARGV) {
+	@const_lines = `more $ARGV[0]`;
+	foreach $const_line (@const_lines) {
+	  if (index($const_line, "SystemMethod") < 0) {
+	    next;
+	  }
+	  print $const_line;
+	}
+}
+print<<FOTTER;
+)
+FOTTER
