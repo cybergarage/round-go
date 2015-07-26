@@ -43,6 +43,26 @@ func (self *LocalNode) init() bool {
 	return true
 }
 
+// SetStaticMethod adds a method as a static method.
+func (self *LocalNode) SetStaticMethod(method Method) bool {
+	return self.methodMgr.SetStaticMethod(method)
+}
+
+// SetStaticMethods adds a method as a static method.
+func (self *LocalNode) SetStaticMethods(method []Method) bool {
+	return self.methodMgr.SetStaticMethods(method)
+}
+
+// SetDynamicMethod adds a method as a dynamic method.
+func (self *LocalNode) SetDynamicMethod(method Method) bool {
+	return self.methodMgr.SetDynamicMethod(method)
+}
+
+// SetDynamicMethods adds a method as a dynamic method.
+func (self *LocalNode) SetDynamicMethods(method []Method) bool {
+	return self.methodMgr.SetDynamicMethods(method)
+}
+
 // SetRegistry sets a registry by a specified registory.
 func (self *LocalNode) SetRegistry(reg *Registry) error {
 	newReg := NewRegistryFromRegistry(reg)

@@ -41,10 +41,32 @@ func (self *MethodManager) SetStaticMethod(method Method) bool {
 	return true
 }
 
+// SetStaticMethods adds methods as static method.
+func (self *MethodManager) SetStaticMethods(methods []Method) bool {
+	allResult := true
+	for _, method := range methods {
+		if !self.SetStaticMethod(method) {
+			allResult = false
+		}
+	}
+	return allResult
+}
+
 // SetDynamicMethod adds a method as a dynamic method.
 func (self *MethodManager) SetDynamicMethod(method Method) bool {
 	self.dynamicMethods[method.GetName()] = method
 	return true
+}
+
+// SetDynamicMethods adds methods as dynamic method.
+func (self *MethodManager) SetDynamicMethods(methods []Method) bool {
+	allResult := true
+	for _, method := range methods {
+		if !self.SetDynamicMethod(method) {
+			allResult = false
+		}
+	}
+	return allResult
 }
 
 // HasMethod returns whether the specified name method is exists.

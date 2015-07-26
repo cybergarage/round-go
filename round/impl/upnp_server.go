@@ -17,20 +17,20 @@ type Server struct {
 	Status bool
 }
 
-func NewServer() (*Server, error) {
+func NewServer() *Server {
 	dev, err := upnp.NewDeviceFromDescription(roundServerDeviceDescription)
 	if err != nil {
-		return nil, err
+		return nil
 	}
 
 	service, err := dev.GetServiceByType(UpnpServiceType)
 	if err != nil {
-		return nil, err
+		return nil
 	}
 
 	err = service.LoadDescriptionBytes([]byte(roundServerServiceDescription))
 	if err != nil {
-		return nil, err
+		return nil
 	}
 
 	server := &Server{
@@ -39,7 +39,7 @@ func NewServer() (*Server, error) {
 	}
 	server.ActionListener = server
 
-	return server, nil
+	return server
 }
 
 func (self *Server) ActionRequestReceived(action *upnp.Action) upnp.Error {
