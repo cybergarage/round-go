@@ -95,25 +95,35 @@ func (self *LocalNode) Stop() error {
 
 // Exec runs the specified request.
 func (self *LocalNode) Exec(req *rpc.Request) (*rpc.Response, *rpc.Error) {
+	res := rpc.NewResponse()
+
+	// Set id and ts parameter
+
+	res.Id = req.Id
+	res.Timestamp = self.GetClock()
+
+	// Exec Message
+
+	method := req.Method
+	if len(method) <= 0 {
+		err := rpc.NewError(rpc.ErrorCodeMethodNotFound)
+		res.SetErrorResult(err)
+		return res, err
+	}
+
 	/*
-	  // Set id and ts parameter
-
-	  size_t msgId;
-	  if (nodeReq->getId(&msgId)) {
-	    nodeRes->setId(msgId);
-	  }
-	  nodeRes->setTimestamp(getLocalClock());
-
+		res, rpcErr := self.methodMgr.ExecMethod(self, method, req) (*rpc.Response, error) {
+	*/
+	isMethodExecuted := false
+	switch {
+	case self.methodMgr.IsStaticMethod(method):
+		isMethodExecuted = true
+	case self.methodMgr.IsDynamicMethod(method):
+		isMethodExecuted = true
+	}
+	/*
 	  // Exec Message
 
-	  std::string name;
-	  if (!nodeReq->getMethod(&name) || (name.length() <= 0)) {
-	    setError(RPC::JSON::ErrorCodeMethodNotFound, error);
-	    return false;
-	  }
-
-	  bool isMethodExecuted = false;
-	  bool isMethodSuccess = false;
 
 	  if (isStaticMethod(name)) {
 	    isMethodExecuted = true;
@@ -131,28 +141,31 @@ func (self *LocalNode) Exec(req *rpc.Request) (*rpc.Response, *rpc.Error) {
 	    isMethodExecuted = true;
 	    isMethodSuccess = execAliasMethod(nodeReq, nodeRes, error);
 	  }
+	*/
+	if !isMethodExecuted {
+		err := rpc.NewError(rpc.ErrorCodeMethodNotFound)
+		res.SetErrorResult(err)
+		return res, err
+	}
 
-	  if (!isMethodExecuted) {
-	    setError(RPC::JSON::ErrorCodeMethodNotFound, error);
-	    return false;
-	  }
+	/*
+		if !isMethodSuccess {
+			return res, err
+		}
 
-	  if (!isMethodSuccess)
-	    return false;
+		  if (!hasRoute(name)) {
+		    return true;
+		  }
 
-	  if (!hasRoute(name)) {
-	    return true;
-	  }
+		  NodeResponse routeNodeRes;
+		  if (!execRoute(name, nodeRes, &routeNodeRes, error)) {
+		    return false;
+		  }
 
-	  NodeResponse routeNodeRes;
-	  if (!execRoute(name, nodeRes, &routeNodeRes, error)) {
-	    return false;
-	  }
-
-	  nodeRes->set(&routeNodeRes);
+		  nodeRes->set(&routeNodeRes);
 	*/
 
-	return nil, nil
+	return res, nil
 }
 
 // MessageReceived is a listner for MessageManager.

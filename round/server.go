@@ -5,8 +5,6 @@
 package round
 
 import (
-	"net/http"
-
 	"github.com/cybergarage/round-go/round/impl"
 	"github.com/cybergarage/round-go/round/method"
 )
@@ -33,13 +31,7 @@ func (self *Server) init() bool {
 }
 
 func (self *Server) initDefaultMethods() bool {
-
 	self.SetStaticMethods(method.GetSystemStaticMethods())
 	self.SetDynamicMethods(method.GetSystemDynamicMethods())
-
 	return true
-}
-
-// ServeHTTP
-func (server Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }

@@ -51,3 +51,7 @@ func (self *Node) GetRequestPort() int {
 func (self *Node) PostMessage(reqMsg string) (resMsg string, err error) {
 	return "", nil
 }
+
+func (self *Node) GetClock() uint64 {
+	return 0
+}

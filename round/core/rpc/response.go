@@ -13,7 +13,7 @@ type Response struct {
 	Version   string `json:"jsonrpc"`
 	Result    string `json:"result"`
 	Id        string `json:"id"`
-	Timestamp string `json:"ts"`
+	Timestamp uint64 `json:"ts"`
 }
 
 // NewResponse returns a new Response.
@@ -43,12 +43,22 @@ func NewResponseFromRequestWithJSONResult(req *Request, result interface{}) *Res
 	return res
 }
 
-// SetJSONParams set the specified struct into the result.
-func (self *Response) SetJSONResult(v interface{}) *Error {
+// SetResult sets a object into the result.
+func (self *Response) SetResult(v interface{}) *Error {
 	bytes, err := json.Marshal(v)
 	if err != nil {
 		return NewError(ErrorCodeInvalidParams)
 	}
 	self.Result = string(bytes)
 	return nil
+}
+
+// SetJSONParams sets the specified struct into the result.
+func (self *Response) SetJSONResult(v interface{}) *Error {
+	return self.SetResult(v)
+}
+
+// SetErrorResult set an error into the result.
+func (self *Response) SetErrorResult(rpcErr *Error) *Error {
+	return self.SetResult(rpcErr)
 }

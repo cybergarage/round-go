@@ -6,11 +6,19 @@ package core
 
 // A Clock represents a Clock.
 type Clock struct {
-	Timestamp int64
+	Timestamp uint64
 }
 
 // NewClock returns a new clock.
 func NewClock() *Clock {
 	clock := &Clock{0}
 	return clock
+}
+
+func (self *Clock) SetClock(value uint64) {
+	self.Timestamp = value
+}
+
+func (self *Clock) GetClock() uint64 {
+	return self.Timestamp
 }

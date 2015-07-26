@@ -10,7 +10,7 @@ import (
 	"github.com/cybergarage/round-go/round/core/rpc"
 )
 
-// A ErrorObject represents a error object for round.
+// A ErroError represents a core error for round.
 type Error interface {
 	error
 	GetCode() int

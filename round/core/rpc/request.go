@@ -10,12 +10,11 @@ import (
 
 // A Request represents a JSON-RPC Request.
 type Request struct {
-	Version    string `json:"jsonrpc"`
-	Method     string `json:"method"`
-	Params     string `json:"params"`
-	Id         string `json:"id"`
-	Timestamp  string `json:"ts"`
-	jsonParams interface{}
+	Version   string `json:"jsonrpc"`
+	Method    string `json:"method"`
+	Params    string `json:"params"`
+	Id        string `json:"id"`
+	Timestamp uint64 `json:"ts"`
 }
 
 // A Request represents a JSON-RPC Batch Request.
@@ -25,7 +24,9 @@ type BatchRequest struct {
 
 // NewRequest returns a new Request.
 func NewRequest() *Request {
-	req := &Request{Version: Version}
+	req := &Request{
+		Version: Version,
+	}
 	return req
 }
 
