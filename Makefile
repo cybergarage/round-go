@@ -13,7 +13,7 @@ PRODUCT_DIR=./${PRODUCT}
 GITHUB=github.com/cybergarage/${PRODUCT}-go
 
 PACKAGES = ${GITHUB}/${PRODUCT} ${GITHUB}/${PRODUCT}/core ${GITHUB}/${PRODUCT}/common/ ${GITHUB}/${PRODUCT}/core/rpc ${GITHUB}/${PRODUCT}/config ${GITHUB}/${PRODUCT}/log ${GITHUB}/${PRODUCT}/script ${GITHUB}/${PRODUCT}/impl ${GITHUB}/${PRODUCT}/method
-CONST_FILES = ${PRODUCT_DIR}/version.go ${PRODUCT_DIR}/const.go ${PRODUCT_DIR}/impl/const.go ${PRODUCT_DIR}/impl/server_desc.go ${PRODUCT_DIR}/method/const.go
+CONST_FILES = ${PRODUCT_DIR}/version.go ${PRODUCT_DIR}/const.go ${PRODUCT_DIR}/core/rpc/errors.go ${PRODUCT_DIR}/impl/const.go ${PRODUCT_DIR}/impl/server_desc.go ${PRODUCT_DIR}/method/const.go
 
 .PHONY: ${CONST_FILES}
 
@@ -26,6 +26,10 @@ ${PRODUCT_DIR}/const.go: ${PRODUCT_DIR}/const.go.gen
 	gofmt -w $@
  
 ${PRODUCT_DIR}/version.go: ${PRODUCT_DIR}/version.go.gen
+	$< > $@
+	gofmt -w $@
+
+${PRODUCT_DIR}/core/rpc/errors.go: ${PRODUCT_DIR}/core/rpc/errors.go.gen
 	$< > $@
 	gofmt -w $@
 
