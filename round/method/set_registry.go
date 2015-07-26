@@ -2,27 +2,29 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package core
+package method
 
 import (
-	"github.com/cybergarage/round-go/round"
+	"github.com/cybergarage/round-go/round/core"
 	"github.com/cybergarage/round-go/round/core/rpc"
 )
 
 // A Method represents a node method.
 type SetRegistry struct {
-	*BaseMethod
+	*core.BaseMethod
 }
 
 // NewMethod returns a new Method.
 func NewSetRegistryMethod() *SetRegistry {
-	method := &SetRegistry{NewBaseMethod(round.SystemMethodSetRegistry)}
+	method := &SetRegistry{
+		BaseMethod: core.NewBaseMethod(SystemMethodSetRegistry),
+	}
 	return method
 }
 
 // Exec runs the specified request on the local node.
-func (self *SetRegistry) Exec(node *LocalNode, req *rpc.Request) (*rpc.Response, *rpc.Error) {
-	var reg Registry
+func (self *SetRegistry) Exec(node *core.LocalNode, req *rpc.Request) (*rpc.Response, *rpc.Error) {
+	var reg core.Registry
 	reqErr := req.GetJSONParams(&reg)
 	if reqErr != nil {
 		return nil, reqErr

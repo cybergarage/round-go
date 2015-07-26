@@ -8,8 +8,6 @@ import (
 	"strconv"
 	"testing"
 	"time"
-
-	"github.com/cybergarage/round-go/round"
 )
 
 const (
@@ -23,7 +21,7 @@ type TestMessageManagerListener struct {
 	Sum    int
 }
 
-func (self *TestMessageManagerListener) MessageReceived(msg *Message) *round.Error {
+func (self *TestMessageManagerListener) MessageReceived(msg *Message) Error {
 	value, err := strconv.Atoi(msg.Content)
 	if err == nil {
 		self.Values = append(self.Values, value)

@@ -7,7 +7,6 @@ package core
 import (
 	"encoding/json"
 
-	"github.com/cybergarage/round-go/round"
 	"github.com/cybergarage/round-go/round/core/rpc"
 )
 
@@ -38,19 +37,30 @@ func NewLocalNode() *LocalNode {
 }
 
 func (self *LocalNode) init() bool {
-	self.initDefaultMethods()
-
 	self.cluster.AddNode(self)
 	self.msgMgr.SetListener(self)
 
 	return true
 }
 
-func (self *LocalNode) initDefaultMethods() bool {
-	self.methodMgr.SetDynamicMethod(NewSetRegistryMethod())
-	self.methodMgr.SetDynamicMethod(NewGetRegistryMethod())
+// SetStaticMethod adds a method as a static method.
+func (self *LocalNode) SetStaticMethod(method Method) bool {
+	return self.methodMgr.SetStaticMethod(method)
+}
 
-	return true
+// SetStaticMethods adds a method as a static method.
+func (self *LocalNode) SetStaticMethods(method []Method) bool {
+	return self.methodMgr.SetStaticMethods(method)
+}
+
+// SetDynamicMethod adds a method as a dynamic method.
+func (self *LocalNode) SetDynamicMethod(method Method) bool {
+	return self.methodMgr.SetDynamicMethod(method)
+}
+
+// SetDynamicMethods adds a method as a dynamic method.
+func (self *LocalNode) SetDynamicMethods(method []Method) bool {
+	return self.methodMgr.SetDynamicMethods(method)
 }
 
 // SetRegistry sets a registry by a specified registory.
@@ -146,19 +156,19 @@ func (self *LocalNode) Exec(req *rpc.Request) (*rpc.Response, *rpc.Error) {
 }
 
 // MessageReceived is a listner for MessageManager.
-func (self *LocalNode) MessageReceived(msg *Message) *round.Error {
+func (self *LocalNode) MessageReceived(msg *Message) Error {
 	self.Lock()
 	defer self.Unlock()
 
 	var rpcReq rpc.Request
 	err := json.Unmarshal([]byte(msg.Content), rpcReq)
 	if err != nil {
-		return round.NewErrorFromRPCError(rpc.NewError(rpc.ErrorCodeInvalidParams))
+		return NewErrorFromRPCError(rpc.NewError(rpc.ErrorCodeInvalidParams))
 	}
 
 	_, rpcErr := self.Exec(&rpcReq)
 	if rpcErr != nil {
-		return round.NewErrorFromRPCError(rpcErr)
+		return NewErrorFromRPCError(rpcErr)
 	}
 
 	return nil

@@ -39,3 +39,15 @@ func NewNodeFromSSDPRequest(req *ssdp.Request) (*Node, error) {
 func NewNodeFromSSDPResponse(res *ssdp.Response) (*Node, error) {
 	return newNodeFromSSDPPacket(res.Packet)
 }
+
+func (self *Node) GetRequestAddress() string {
+	return self.Address
+}
+
+func (self *Node) GetRequestPort() int {
+	return self.Port
+}
+
+func (self *Node) PostMessage(reqMsg string) (resMsg string, err error) {
+	return "", nil
+}
