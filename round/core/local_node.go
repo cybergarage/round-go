@@ -94,78 +94,37 @@ func (self *LocalNode) Stop() error {
 }
 
 // Exec runs the specified request.
-func (self *LocalNode) Exec(req *rpc.Request) (*rpc.Response, *rpc.Error) {
-	res := rpc.NewResponse()
+func (self *LocalNode) Exec(req *rpc.Request) *rpc.Response {
+
+	// Exec Message
+
+	method := req.Method
+
+	res, rpcErr := self.methodMgr.ExecMethod(self, method, req)
+	if rpcErr != nil {
+		res = rpc.NewResponse()
+		res.SetErrorResult(rpcErr)
+	}
 
 	// Set id and ts parameter
 
 	res.Id = req.Id
 	res.Timestamp = self.GetClock()
 
-	// Exec Message
-
-	method := req.Method
-	if len(method) <= 0 {
-		err := rpc.NewError(rpc.ErrorCodeMethodNotFound)
-		res.SetErrorResult(err)
-		return res, err
-	}
-
 	/*
-		res, rpcErr := self.methodMgr.ExecMethod(self, method, req) (*rpc.Response, error) {
-	*/
-	isMethodExecuted := false
-	switch {
-	case self.methodMgr.IsStaticMethod(method):
-		isMethodExecuted = true
-	case self.methodMgr.IsDynamicMethod(method):
-		isMethodExecuted = true
-	}
-	/*
-	  // Exec Message
-
-
-	  if (isStaticMethod(name)) {
-	    isMethodExecuted = true;
-	    isMethodSuccess = execStaticMethod(nodeReq, nodeRes, error);
+	  if (!hasRoute(name)) {
+	    return true;
 	  }
-	  else if (isDynamicMethod(name)) {
-	    isMethodExecuted = true;
-	    isMethodSuccess = execDynamicMethod(nodeReq, nodeRes, error);
+
+	  NodeResponse routeNodeRes;
+	  if (!execRoute(name, nodeRes, &routeNodeRes, error)) {
+	    return false;
 	  }
-	  else if (isNativeMethod(name)) {
-	    isMethodExecuted = true;
-	    isMethodSuccess = execNativeMethod(nodeReq, nodeRes, error);
-	  }
-	  else if (isAliasMethod(name)) {
-	    isMethodExecuted = true;
-	    isMethodSuccess = execAliasMethod(nodeReq, nodeRes, error);
-	  }
-	*/
-	if !isMethodExecuted {
-		err := rpc.NewError(rpc.ErrorCodeMethodNotFound)
-		res.SetErrorResult(err)
-		return res, err
-	}
 
-	/*
-		if !isMethodSuccess {
-			return res, err
-		}
-
-		  if (!hasRoute(name)) {
-		    return true;
-		  }
-
-		  NodeResponse routeNodeRes;
-		  if (!execRoute(name, nodeRes, &routeNodeRes, error)) {
-		    return false;
-		  }
-
-		  nodeRes->set(&routeNodeRes);
+	  nodeRes->set(&routeNodeRes);
 	*/
 
-	return res, nil
+	return res
 }
 
 // MessageReceived is a listner for MessageManager.
@@ -179,10 +138,7 @@ func (self *LocalNode) MessageReceived(msg *Message) Error {
 		return NewErrorFromRPCError(rpc.NewError(rpc.ErrorCodeInvalidParams))
 	}
 
-	_, rpcErr := self.Exec(&rpcReq)
-	if rpcErr != nil {
-		return NewErrorFromRPCError(rpcErr)
-	}
+	/*rpcRes := */ self.Exec(&rpcReq)
 
 	return nil
 }

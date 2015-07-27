@@ -82,6 +82,10 @@ func (self *MethodManager) HasMethod(name string) bool {
 
 // GetMethod returns a method by the specified name.
 func (self *MethodManager) GetMethod(name string) (Method, error) {
+	if len(name) <= 0 {
+		return nil, rpc.NewError(rpc.ErrorCodeMethodNotFound)
+	}
+
 	method, ok := self.staticMethods[name]
 	if ok {
 		return method, nil
@@ -90,7 +94,8 @@ func (self *MethodManager) GetMethod(name string) (Method, error) {
 	if ok {
 		return method, nil
 	}
-	return nil, nil
+
+	return nil, rpc.NewError(rpc.ErrorCodeMethodNotFound)
 }
 
 // ExecMethod returns a result of the specified method.
