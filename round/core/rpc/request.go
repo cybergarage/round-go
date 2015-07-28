@@ -10,11 +10,11 @@ import (
 
 // A Request represents a JSON-RPC Request.
 type Request struct {
-	Version   string `json:"jsonrpc"`
-	Method    string `json:"method"`
-	Params    string `json:"params"`
-	Id        string `json:"id"`
-	Timestamp uint64 `json:"ts"`
+	Version   string      `json:"jsonrpc"`
+	Method    string      `json:"method"`
+	Params    interface{} `json:"params"`
+	Id        uint64      `json:"id"`
+	Timestamp uint64      `json:"ts"`
 }
 
 // A Request represents a JSON-RPC Batch Request.
@@ -40,6 +40,11 @@ func NewRequestFromBytes(reqBytes []byte) (*Request, *Error) {
 	return req, nil
 }
 
+// NewRequestFromString returns a new Request from the specified string.
+func NewRequestFromString(reqStr string) (*Request, *Error) {
+	return NewRequestFromBytes([]byte(reqStr))
+}
+
 // HasMethod returns true if the request has a method parameter, otherwise false.
 func (self *Request) HasMethod() bool {
 	if len(self.Method) <= 0 {
@@ -62,11 +67,22 @@ func (self *Request) ParseBytes(reqBytes []byte) *Error {
 	return nil
 }
 
+// GetParams returns a the specified interface using params.
+func (self *Request) GetParams() string {
+	b, err := json.Marshal(self.Params)
+	if err != nil {
+		return ""
+	}
+	return string(b)
+}
+
 // GetJSONParams returns a the specified interface using params.
 func (self *Request) GetJSONParams(v interface{}) *Error {
-	err := json.Unmarshal([]byte(self.Params), v)
-	if err != nil {
-		return NewError(ErrorCodeInvalidParams)
-	}
+	/*
+		err := json.Unmarshal([]byte(self.Params), v)
+		if err != nil {
+			return NewError(ErrorCodeInvalidParams)
+		}
+	*/
 	return nil
 }

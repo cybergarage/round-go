@@ -12,7 +12,7 @@ import (
 type Response struct {
 	Version   string `json:"jsonrpc"`
 	Result    string `json:"result"`
-	Id        string `json:"id"`
+	Id        uint64 `json:"id"`
 	Timestamp uint64 `json:"ts"`
 }
 
