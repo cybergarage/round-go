@@ -81,7 +81,7 @@ func (self *MethodManager) HasMethod(name string) bool {
 }
 
 // GetMethod returns a method by the specified name.
-func (self *MethodManager) GetMethod(name string) (Method, error) {
+func (self *MethodManager) GetMethod(name string) (Method, *rpc.Error) {
 	if len(name) <= 0 {
 		return nil, rpc.NewError(rpc.ErrorCodeMethodNotFound)
 	}
@@ -99,7 +99,7 @@ func (self *MethodManager) GetMethod(name string) (Method, error) {
 }
 
 // ExecMethod returns a result of the specified method.
-func (self *MethodManager) ExecMethod(node *LocalNode, name string, req *rpc.Request) (*rpc.Response, error) {
+func (self *MethodManager) ExecMethod(node *LocalNode, name string, req *rpc.Request) (*rpc.Response, *rpc.Error) {
 	method, err := self.GetMethod(name)
 	if err != nil {
 		return nil, err
