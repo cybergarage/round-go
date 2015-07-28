@@ -30,6 +30,38 @@ func NewRequest() *Request {
 	return req
 }
 
+// NewRequestFromBytes returns a new Request from the specified bytes.
+func NewRequestFromBytes(reqBytes []byte) (*Request, *Error) {
+	req := &Request{}
+	err := req.ParseBytes(reqBytes)
+	if err != nil {
+		return nil, err
+	}
+	return req, nil
+}
+
+// HasMethod returns true if the request has a method parameter, otherwise false.
+func (self *Request) HasMethod() bool {
+	if len(self.Method) <= 0 {
+		return false
+	}
+	return true
+}
+
+// GetJSONParams returns a the specified interface using params.
+func (self *Request) ParseBytes(reqBytes []byte) *Error {
+	err := json.Unmarshal(reqBytes, self)
+	if err != nil {
+		return NewError(ErrorCodeParserError)
+	}
+
+	if !self.HasMethod() {
+		return NewError(ErrorCodeMethodNotFound)
+	}
+
+	return nil
+}
+
 // GetJSONParams returns a the specified interface using params.
 func (self *Request) GetJSONParams(v interface{}) *Error {
 	err := json.Unmarshal([]byte(self.Params), v)

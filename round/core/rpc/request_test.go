@@ -9,13 +9,7 @@ import (
 	"testing"
 )
 
-const (
-	nullRequestError = "Request is null"
-)
-
-func TestNewRequest(t *testing.T) {
-	req := NewRequest()
-	if req == nil {
-		t.Error(errors.New(nullRequestError))
-	}
+// {"jsonrpc": "2.0", "method": "subtract", "params": [42, 23], "id": 1}
+func TestNewRequestExamples01(t *testing.T) {
+	NewRequest()
 }
