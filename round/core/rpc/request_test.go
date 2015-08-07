@@ -9,27 +9,38 @@ import (
 )
 
 const (
-	testRequestExamples01 = "{\"jsonrpc\": \"2.0\", \"method\": \"subtract\", \"params\": [42,23], \"id\": 1}"
-)
-
-const (
 	errorRequestParserError = "%s != %#v"
 )
 
 func TestNewRequestExamples01(t *testing.T) {
-	req, err := NewRequestFromString(testRequestExamples01)
-	if err != nil {
-		t.Errorf("%s : %s", err.Error(), testRequestExamples01)
-		return
+	exsamples := []string{
+		"{\"jsonrpc\": \"2.0\", \"method\": \"subtract\", \"params\": [42,23], \"id\": 1}",
 	}
 
-	if req.Method != "subtract" {
-		t.Errorf(errorRequestParserError, TestNewRequestExamples01, req)
+	expectedMethods := []string{
+		"subtract",
 	}
 
-	params := req.GetParams()
-	expectedParams := "[42,23]"
-	if params != expectedParams {
-		t.Errorf(errorRequestParserError, params, expectedParams)
+	expectedParams := []string{
+		"[42,23]",
+	}
+
+	for n, example := range exsamples {
+		req, err := NewRequestFromString(example)
+		if err != nil {
+			t.Errorf("%s : %s", err.Error(), example)
+			return
+		}
+
+		expectedMethod := expectedMethod[n]
+		if req.Method != expectedMethod {
+			t.Errorf(errorRequestParserError, req.Method, expectedMethod)
+		}
+
+		params := req.GetParams()
+		expectedParams := expectedParams[n]
+		if params != expectedParams {
+			t.Errorf(errorRequestParserError, params, expectedParams)
+		}
 	}
 }
