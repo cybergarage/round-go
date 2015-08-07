@@ -53,7 +53,7 @@ func (self *Request) HasMethod() bool {
 	return true
 }
 
-// GetJSONParams returns a the specified interface using params.
+// ParseBytes parses the specified bytes.
 func (self *Request) ParseBytes(reqBytes []byte) *Error {
 	err := json.Unmarshal(reqBytes, self)
 	if err != nil {
