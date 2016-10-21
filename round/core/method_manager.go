@@ -41,10 +41,32 @@ func (self *MethodManager) SetStaticMethod(method Method) bool {
 	return true
 }
 
+// SetStaticMethods adds methods as static method.
+func (self *MethodManager) SetStaticMethods(methods []Method) bool {
+	allResult := true
+	for _, method := range methods {
+		if !self.SetStaticMethod(method) {
+			allResult = false
+		}
+	}
+	return allResult
+}
+
 // SetDynamicMethod adds a method as a dynamic method.
 func (self *MethodManager) SetDynamicMethod(method Method) bool {
 	self.dynamicMethods[method.GetName()] = method
 	return true
+}
+
+// SetDynamicMethods adds methods as dynamic method.
+func (self *MethodManager) SetDynamicMethods(methods []Method) bool {
+	allResult := true
+	for _, method := range methods {
+		if !self.SetDynamicMethod(method) {
+			allResult = false
+		}
+	}
+	return allResult
 }
 
 // HasMethod returns whether the specified name method is exists.
@@ -59,7 +81,11 @@ func (self *MethodManager) HasMethod(name string) bool {
 }
 
 // GetMethod returns a method by the specified name.
-func (self *MethodManager) GetMethod(name string) (Method, error) {
+func (self *MethodManager) GetMethod(name string) (Method, *rpc.Error) {
+	if len(name) <= 0 {
+		return nil, rpc.NewError(rpc.ErrorCodeMethodNotFound)
+	}
+
 	method, ok := self.staticMethods[name]
 	if ok {
 		return method, nil
@@ -68,11 +94,12 @@ func (self *MethodManager) GetMethod(name string) (Method, error) {
 	if ok {
 		return method, nil
 	}
-	return nil, nil
+
+	return nil, rpc.NewError(rpc.ErrorCodeMethodNotFound)
 }
 
 // ExecMethod returns a result of the specified method.
-func (self *MethodManager) ExecMethod(node *LocalNode, name string, req *rpc.Request) (*rpc.Response, error) {
+func (self *MethodManager) ExecMethod(node *LocalNode, name string, req *rpc.Request) (*rpc.Response, *rpc.Error) {
 	method, err := self.GetMethod(name)
 	if err != nil {
 		return nil, err

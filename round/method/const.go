@@ -2,20 +2,9 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package round
+package method
 
 const (
-	SystemTriggerTimerPrecision     = 0.1
-	UpnpDeviceType                  = "urn:cybergarage-org:device:round:1"
-	UpnpServiceType                 = "urn:cybergarage-org:service:round:1"
-	RpcHttpEndpoint                 = "/rpc"
-	RpcHttpContentType              = "application/json"
-	NodeStatusUnknown               = 0
-	NodeStatusStop                  = 1
-	NodeStatusActivating            = 2
-	NodeStatusActive                = 3
-	NodeStatusTerminating           = 4
-	NodeStatusPromice               = 5
 	SystemMethodPostJob             = "post_job"
 	SystemMethodSetMethod           = "set_method"
 	SystemMethodSetAlias            = "set_alias"
@@ -62,10 +51,4 @@ const (
 	SystemMethodRemoveNodeDelayMsec = 5000
 	SystemMethodDestAllNode         = "*"
 	SystemMethodDestAnyNode         = "?"
-	ScriptPostMethod                = "post_method"
-	ScriptPrintMethod               = "print"
-	ScriptSearchMethod              = "search"
-	ScriptSearchMethodWaitMsec      = 5000
-	MessageSearching                = "Searching"
-	MessageDone                     = "Done"
 )

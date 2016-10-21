@@ -9,18 +9,41 @@
 ###################################################################
 
 PRODUCT=round
+PRODUCT_DIR=./${PRODUCT}
 GITHUB=github.com/cybergarage/${PRODUCT}-go
 
-PACKAGES = ${GITHUB}/${PRODUCT} ${GITHUB}/${PRODUCT}/core ${GITHUB}/${PRODUCT}/common/ ${GITHUB}/${PRODUCT}/core/rpc ${GITHUB}/${PRODUCT}/config ${GITHUB}/${PRODUCT}/log ${GITHUB}/${PRODUCT}/script
+PACKAGES = ${GITHUB}/${PRODUCT} ${GITHUB}/${PRODUCT}/core ${GITHUB}/${PRODUCT}/common/ ${GITHUB}/${PRODUCT}/core/rpc ${GITHUB}/${PRODUCT}/config ${GITHUB}/${PRODUCT}/log ${GITHUB}/${PRODUCT}/script ${GITHUB}/${PRODUCT}/impl ${GITHUB}/${PRODUCT}/method
+CONST_FILES = ${PRODUCT_DIR}/version.go ${PRODUCT_DIR}/const.go ${PRODUCT_DIR}/core/rpc/errors.go ${PRODUCT_DIR}/impl/const.go ${PRODUCT_DIR}/impl/server_desc.go ${PRODUCT_DIR}/method/const.go
 
-.PHONY: ./${PRODUCT}/version.go
-	
+.PHONY: ${CONST_FILES}
+
 all: build
 
-./${PRODUCT}/version.go: ./${PRODUCT}/version.gen
+const: ${CONST_FILES}
+
+${PRODUCT_DIR}/const.go: ${PRODUCT_DIR}/const.go.gen
 	$< > $@
+	gofmt -w $@
  
-version: ./${PRODUCT}/version.go
+${PRODUCT_DIR}/version.go: ${PRODUCT_DIR}/version.go.gen
+	$< > $@
+	gofmt -w $@
+
+${PRODUCT_DIR}/core/rpc/errors.go: ${PRODUCT_DIR}/core/rpc/errors.go.gen
+	$< > $@
+	gofmt -w $@
+
+${PRODUCT_DIR}/impl/const.go: ${PRODUCT_DIR}/impl/const.go.gen
+	$< ${PRODUCT_DIR}/const.go > $@
+	gofmt -w $@
+
+${PRODUCT_DIR}/impl/upnp_server_desc.go: ${PRODUCT_DIR}/impl/upnp_server_desc.go.gen
+	$< > $@
+	gofmt -w $@
+
+${PRODUCT_DIR}/method/const.go: ${PRODUCT_DIR}/method/const.go.gen
+	$< ${PRODUCT_DIR}/const.go > $@
+	gofmt -w $@
 
 setup:
 	go get -u github.com/cybergarage/go-net-upnp/net/upnp
@@ -30,7 +53,7 @@ format:
 	gofmt -w src
 
 cgo: 
-	go tool cgo ./${PRODUCT}/script/global_script_func.go
+	go tool cgo ${PRODUCT_DIR}/script/global_script_func.go
 
 build: cgo format
 	go build -v ${PACKAGES}

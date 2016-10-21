@@ -10,13 +10,21 @@ type Error struct {
 	Message string `json:"message"`
 }
 
-// NewError returns a new error.
+// NewErrorWithMessage returns a new error of the specified code
 func NewError(code int) *Error {
-	err := &Error{}
-	err.Code = code
+	msg := ""
 	errMsg, ok := errorMessage[code]
 	if ok {
-		err.Message = errMsg
+		msg = errMsg
+	}
+	return NewErrorWithMessage(code, msg)
+}
+
+// NewErrorWithMessage returns a new error of the specified code and message
+func NewErrorWithMessage(code int, msg string) *Error {
+	err := &Error{
+		Code:    code,
+		Message: msg,
 	}
 	return err
 }

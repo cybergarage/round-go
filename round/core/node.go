@@ -20,6 +20,7 @@ const (
 type Node interface {
 	GetRequestAddress() string
 	GetRequestPort() int
+	GetClock() uint64
 	PostMessage(reqMsg string) (resMsg string, err error)
 }
 

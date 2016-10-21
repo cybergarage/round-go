@@ -2,8 +2,9 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package round
+package impl
 
 const (
-	ProductVersion = "0.1"
+	UpnpDeviceType  = "urn:cybergarage-org:device:round:1"
+	UpnpServiceType = "urn:cybergarage-org:service:round:1"
 )

@@ -2,8 +2,12 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package round
+package impl
 
-const (
-	ProductVersion = "0.1"
+import (
+	"testing"
 )
+
+func TestNewNode(t *testing.T) {
+	NewNode()
+}
