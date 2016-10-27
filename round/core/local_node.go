@@ -20,22 +20,13 @@ import (
 // A LocalNode represents a local node.
 type LocalNode struct {
 	*BaseNode
-	regMgr    *RegistryManager
-	msgMgr    *MessageManager
-	methodMgr *MethodManager
-	scriptMgr *ScriptManager
-	Engine    *C.RoundLocalNode
+	msgMgr *MessageManager
+	Engine *C.RoundLocalNode
 }
 
 // NewLocalNode returns a new LocalNode.
 func NewLocalNode() *LocalNode {
 	node := &LocalNode{BaseNode: NewBaseNode()}
-
-	node.regMgr = NewRegistryManager()
-	node.scriptMgr = NewScriptManager()
-
-	node.methodMgr = NewMethodManager()
-	node.initDefaultMethods()
 
 	node.msgMgr = NewMessageManager()
 	node.msgMgr.SetListener(node)
@@ -46,21 +37,17 @@ func NewLocalNode() *LocalNode {
 }
 
 func (self *LocalNode) initDefaultMethods() bool {
-	self.methodMgr.SetDynamicMethod(NewSetRegistryMethod())
-	self.methodMgr.SetDynamicMethod(NewGetRegistryMethod())
-
 	return true
 }
 
 // SetRegistry sets a registry by a specified registory.
 func (self *LocalNode) SetRegistry(reg *Registry) error {
-	newReg := NewRegistryFromRegistry(reg)
-	return self.regMgr.Set(newReg)
+	return nil
 }
 
 // GetRegistry gets a registry by the specified key.
 func (self *LocalNode) GetRegistry(key string) (*Registry, bool) {
-	return self.regMgr.Get(key)
+	return nil, false
 }
 
 // Start starts the local node.
