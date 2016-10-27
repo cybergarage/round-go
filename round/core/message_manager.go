@@ -6,6 +6,7 @@ package core
 
 import (
 	"errors"
+
 	"github.com/cybergarage/round-go/round"
 )
 
@@ -16,7 +17,7 @@ const (
 
 // A MessageManagerListener represents a message listener interface.
 type MessageManagerListener interface {
-	MessageReceived(*Message) Error
+	MessageReceived(*Message) *round.Error
 }
 
 // A MessageManager represents a message queue.
