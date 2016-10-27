@@ -4,8 +4,14 @@
 
 package core
 
+// #cgo CFLAGS: -I/usr/local/include -DROUND_SUPPORT_JS_SM
+// #cgo LDFLAGS: -L/usr/local/lib -L/usr/local/opt/openssl/lib -lround -lmupnp -lcrypto -ljansson -lmozjs185
+// #include <round/round.h>
+import "C"
+
 import (
 	"encoding/json"
+	"unsafe"
 
 	"github.com/cybergarage/round-go/round"
 	"github.com/cybergarage/round-go/round/core/rpc"
@@ -18,6 +24,7 @@ type LocalNode struct {
 	msgMgr    *MessageManager
 	methodMgr *MethodManager
 	scriptMgr *ScriptManager
+	Engine    *C.RoundLocalNode
 }
 
 // NewLocalNode returns a new LocalNode.
@@ -32,6 +39,8 @@ func NewLocalNode() *LocalNode {
 
 	node.msgMgr = NewMessageManager()
 	node.msgMgr.SetListener(node)
+
+	node.Engine = (*C.RoundLocalNode)(C.round_local_node_new())
 
 	return node
 }
@@ -58,6 +67,11 @@ func (self *LocalNode) GetRegistry(key string) (*Registry, bool) {
 func (self *LocalNode) Start() error {
 	err := self.msgMgr.Start()
 	if err != nil {
+		return err
+	}
+
+	ok, err := C.round_local_node_start((unsafe.Pointer)(self.Engine))
+	if !ok {
 		return err
 	}
 
