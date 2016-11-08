@@ -25,3 +25,5 @@ _testmain.go
 
 # MaxOSX
 .DS_Store
+
+bin/*
