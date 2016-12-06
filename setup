@@ -1,4 +1,5 @@
 #!/bin/sh
 export GOPATH=`pwd`
+export PATH=$PATH:$GOROOT/bin
 go get github.com/cybergarage/round-go/round
 go get github.com/cybergarage/go-net-upnp/net/upnp

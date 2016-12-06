@@ -5,7 +5,7 @@
 package core
 
 // #cgo CFLAGS: -I/usr/local/include -DROUND_SUPPORT_JS_SM
-// #cgo LDFLAGS: -L/usr/local/lib -L/usr/local/opt/openssl/lib -lround -lmupnp -lcrypto -ljansson -lmozjs185
+// #cgo LDFLAGS: -L/usr/local/lib -L/usr/local/opt/openssl/lib -lround -lmupnp -lm -lcrypto -ljansson -lmozjs185
 // #include <round/round.h>
 import "C"
 
