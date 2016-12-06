@@ -20,8 +20,8 @@ import (
 // A LocalNode represents a local node.
 type LocalNode struct {
 	*BaseNode
-	msgMgr *MessageManager
-	Engine *C.RoundLocalNode
+	msgMgr     *MessageManager
+	coreEngine *C.RoundLocalNode
 }
 
 // NewLocalNode returns a new LocalNode.
@@ -31,7 +31,7 @@ func NewLocalNode() *LocalNode {
 	node.msgMgr = NewMessageManager()
 	node.msgMgr.SetListener(node)
 
-	node.Engine = (*C.RoundLocalNode)(C.round_local_node_new())
+	node.coreEngine = (*C.RoundLocalNode)(C.round_local_node_new())
 
 	return node
 }
@@ -57,7 +57,7 @@ func (self *LocalNode) Start() error {
 		return err
 	}
 
-	ok, err := C.round_local_node_start((unsafe.Pointer)(self.Engine))
+	ok, err := C.round_local_node_start((unsafe.Pointer)(self.coreEngine))
 	if !ok {
 		return err
 	}
@@ -71,69 +71,39 @@ func (self *LocalNode) Stop() error {
 	if err != nil {
 		return err
 	}
+
+	ok, err := C.round_local_node_stop((unsafe.Pointer)(self.coreEngine))
+	if !ok {
+		return err
+	}
+
 	return nil
 }
 
-// Exec runs the specified request.
-func (self *LocalNode) Exec(req *rpc.Request) (*rpc.Response, *rpc.Error) {
-	/*
-	  // Set id and ts parameter
+// Convert round error to round.Error.
+func (self *LocalNode) CoreError2Error(coreErr *C.RoundError) *round.Error {
+	err := round.NewError()
+	err.Code = int(C.round_error_getcode((unsafe.Pointer)(coreErr)))
+	err.Message = C.GoString(C.round_error_getmessage((unsafe.Pointer)(coreErr)))
+	err.DetailCode = int(C.round_error_getdetailcode((unsafe.Pointer)(coreErr)))
+	err.DetailMessage = C.GoString(C.round_error_getdetailmessage((unsafe.Pointer)(coreErr)))
+	return err
+}
 
-	  size_t msgId;
-	  if (nodeReq->getId(&msgId)) {
-	    nodeRes->setId(msgId);
-	  }
-	  nodeRes->setTimestamp(getLocalClock());
+// Exec runs the specified JSON request string.
+func (self *LocalNode) ExecJSONRequest(reqStr string) (string, *round.Error) {
+	var coreRetStr *C.char
+	var coreErr C.RoundError
+	C.round_error_init((unsafe.Pointer)(&coreErr))
+	ok, _ := C.round_local_node_execjsonrequest((unsafe.Pointer)(self.coreEngine), C.CString(reqStr), &coreRetStr, (unsafe.Pointer)(&coreErr))
+	if !ok {
+		return "", self.CoreError2Error(&coreErr)
+	}
 
-	  // Exec Message
+	retStr := C.GoString(coreRetStr)
+	C.free((unsafe.Pointer)(coreRetStr))
 
-	  std::string name;
-	  if (!nodeReq->getMethod(&name) || (name.length() <= 0)) {
-	    setError(RPC::JSON::ErrorCodeMethodNotFound, error);
-	    return false;
-	  }
-
-	  bool isMethodExecuted = false;
-	  bool isMethodSuccess = false;
-
-	  if (isStaticMethod(name)) {
-	    isMethodExecuted = true;
-	    isMethodSuccess = execStaticMethod(nodeReq, nodeRes, error);
-	  }
-	  else if (isDynamicMethod(name)) {
-	    isMethodExecuted = true;
-	    isMethodSuccess = execDynamicMethod(nodeReq, nodeRes, error);
-	  }
-	  else if (isNativeMethod(name)) {
-	    isMethodExecuted = true;
-	    isMethodSuccess = execNativeMethod(nodeReq, nodeRes, error);
-	  }
-	  else if (isAliasMethod(name)) {
-	    isMethodExecuted = true;
-	    isMethodSuccess = execAliasMethod(nodeReq, nodeRes, error);
-	  }
-
-	  if (!isMethodExecuted) {
-	    setError(RPC::JSON::ErrorCodeMethodNotFound, error);
-	    return false;
-	  }
-
-	  if (!isMethodSuccess)
-	    return false;
-
-	  if (!hasRoute(name)) {
-	    return true;
-	  }
-
-	  NodeResponse routeNodeRes;
-	  if (!execRoute(name, nodeRes, &routeNodeRes, error)) {
-	    return false;
-	  }
-
-	  nodeRes->set(&routeNodeRes);
-	*/
-
-	return nil, nil
+	return retStr, nil
 }
 
 // MessageReceived is a listner for MessageManager.
@@ -147,10 +117,12 @@ func (self *LocalNode) MessageReceived(msg *Message) *round.Error {
 		return round.NewErrorFromRPCError(rpc.NewError(rpc.ErrorCodeInvalidParams))
 	}
 
-	_, rpcErr := self.Exec(&rpcReq)
-	if rpcErr != nil {
-		return round.NewErrorFromRPCError(rpcErr)
-	}
+	/*
+		_, rpcErr := self.Exec(&rpcReq)
+		if rpcErr != nil {
+			return round.NewErrorFromRPCError(rpcErr)
+		}
+	*/
 
 	return nil
 }
