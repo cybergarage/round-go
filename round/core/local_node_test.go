@@ -10,12 +10,22 @@ import (
 )
 
 const (
-	nullLocalNodeError = "LocalNode is null"
+	localNodeNullError = "LocalNode is null"
 )
 
 func TestNewLocalNode(t *testing.T) {
-	req := NewLocalNode()
-	if req == nil {
-		t.Error(errors.New(nullLocalNodeError))
+	node := NewLocalNode()
+	if node == nil {
+		t.Error(errors.New(localNodeNullError))
+	}
+
+	err := node.Start()
+	if err != nil {
+		t.Error(err)
+	}
+
+	err = node.Stop()
+	if err != nil {
+		t.Error(err)
 	}
 }
