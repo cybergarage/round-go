@@ -1,5 +1,12 @@
 #!/bin/sh
 export GOPATH=`pwd`
 export PATH=$PATH:$GOROOT/bin
-go get github.com/cybergarage/round-go/round
-go get github.com/cybergarage/go-net-upnp/net/upnp
+
+pkg_round='github.com/cybergarage/round-go/round'
+pkg_go_net_upnp='github.com/cybergarage/go-net-upnp/net/upnp'
+
+for github_pkg in ${pkg_round} ${pkg_go_net_upnp}
+do
+  go get ${github_pkg}
+  pushd `pwd` && cd src/${github_pkg} && git pull && popd
+done
