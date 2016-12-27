@@ -5,5 +5,6 @@
 package round
 
 const (
-	ProductVersion = ""
+	TestMethodEchoName   = "echo"
+	TestMethodEchoJsCode = "function echo(params) {return params;}"
 )

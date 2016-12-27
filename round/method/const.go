@@ -6,6 +6,7 @@ package method
 
 const (
 	SystemMethodPostJob             = "post_job"
+	SystemMethodPostMethod          = "post_method"
 	SystemMethodSetMethod           = "set_method"
 	SystemMethodSetAlias            = "set_alias"
 	SystemMethodSetRoute            = "set_route"
@@ -24,11 +25,16 @@ const (
 	SystemMethodRemoveRegistry      = "remove_registry"
 	SystemMethodGetNodeState        = "get_node_state"
 	SystemMethodGetNodeConfig       = "get_node_config"
+	SystemMethodParamId             = "id"
 	SystemMethodParamName           = "name"
-	SystemMethodParamLanguage       = "language"
+	SystemMethodParamLanguage       = "lang"
 	SystemMethodParamCode           = "code"
-	SystemMethodParamEncode         = "encode"
+	SystemMethodParamEncode         = "enc"
 	SystemMethodParamBase64         = "base64"
+	SystemMethodParamKey            = "key"
+	SystemMethodParamValue          = "val"
+	SystemMethodParamTs             = "ts"
+	SystemMethodParamLts            = "lts"
 	SystemMethodParamSrc            = "src"
 	SystemMethodParamDest           = "dest"
 	SystemMethodParamType           = "type"
@@ -51,4 +57,7 @@ const (
 	SystemMethodRemoveNodeDelayMsec = 5000
 	SystemMethodDestAllNode         = "*"
 	SystemMethodDestAnyNode         = "?"
+	SystemMethodDestLocalNode       = "."
+	SystemMethodRouteTypePipe       = "pipe"
+	SystemMethodRouteTypeEvent      = "event"
 )

@@ -1,0 +1,20 @@
+#!/usr/bin/perl
+print<<HEADER;
+// Copyright 2015 Satoshi Konno. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+package round
+
+const ( 
+HEADER
+@const_lines = `curl -s https://raw.githubusercontent.com/cybergarage/round-common/master/const/constants_test.csv | awk '/./' | awk '\$0 !~ /^#/{print \$0}'`;
+foreach $const_line (@const_lines) {
+  @const = split(/,/, $const_line);
+  $const[0] =~ s/_([a-z])/\u$1/g;
+  $const[0] =~ s/^([a-z])/\u$1/;
+  print "Test" . $const[0] . " = " . $const[1];
+}
+print<<FOTTER;
+)
+FOTTER

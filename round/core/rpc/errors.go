@@ -7,7 +7,7 @@ package rpc
 const (
 	ErrorCodeUnknown                   = 0
 	ErrorCodeParserError               = -32700
-	ErrorCodeInvalidQequest            = -32600
+	ErrorCodeInvalidRequest            = -32600
 	ErrorCodeMethodNotFound            = -32601
 	ErrorCodeInvalidParams             = -32602
 	ErrorCodeInternalError             = -32603
@@ -25,7 +25,7 @@ const (
 var errorMessage map[int]string = map[int]string{
 	ErrorCodeUnknown:                   "Unknown Error",
 	ErrorCodeParserError:               "Parse error",
-	ErrorCodeInvalidQequest:            "Invalid Request",
+	ErrorCodeInvalidRequest:            "Invalid Request",
 	ErrorCodeMethodNotFound:            "Method not found",
 	ErrorCodeInvalidParams:             "Invalid params",
 	ErrorCodeInternalError:             "Internal error",

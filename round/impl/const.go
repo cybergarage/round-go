@@ -5,6 +5,8 @@
 package impl
 
 const (
-	UpnpDeviceType  = "urn:cybergarage-org:device:round:1"
-	UpnpServiceType = "urn:cybergarage-org:service:round:1"
+	UpnpDeviceType              = "urn:cybergarage-org:device:round:1"
+	UpnpServiceType             = "urn:cybergarage-org:service:round:1"
+	UpnpActionGetproductinfo    = "GetProductInfo"
+	UpnpActionGetconnectioninfo = "GetConnectionInfo"
 )
